@@ -52,14 +52,14 @@ export default function Contact() {
           <p>Contact Us</p>
           <p>About Us</p>
           <p>Size Guide</p>
-          <p>Shopping & Resturns</p>
+          <p>Shopping &amp; Resturns</p>
           <p>Privacy</p>
         </div>
         <div className={styles.thirdinfo}>
           <h4>Shop</h4>
-          <p>Men's Shopping</p>
-          <p>Women's Shopping</p>
-          <p>Kid's Shopping</p>
+          <p>Men&apos;s Shopping</p>
+          <p>Women&apos;s Shopping</p>
+          <p>Kid&apos;s Shopping</p>
           <p>Discount</p>
         </div>
         <div className={styles.fourthinfo}>

@@ -12,7 +12,7 @@ export default function News() {
         <div className={styles.cart}>
           <Image className={styles.img} src={img1} alt="News1" />
           <h5>26 Sept. 2024</h5>
-          <h4>Let's start bring sale on this summer vacation.</h4>
+          <h4>Let&apos;s start bring sale on this summer vacation.</h4>
           <p>
             Lorem ipsuum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -23,7 +23,7 @@ export default function News() {
         <div className={styles.cart}>
           <Image className={styles.img} src={img2} alt="News1" />
           <h5>26 Sept. 2024</h5>
-          <h4>Let's start bring sale on this summer vacation.</h4>
+          <h4>Let&apos;s start bring sale on this summer vacation.</h4>
           <p>
             Lorem ipsuum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -34,7 +34,7 @@ export default function News() {
         <div className={styles.cart}>
           <Image className={styles.img} src={img1} alt="News1" />
           <h5>26 Sept. 2024</h5>
-          <h4>Let's start bring sale on this summer vacation.</h4>
+          <h4>Let&apos;s start bring sale on this summer vacation.</h4>
           <p>
             Lorem ipsuum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

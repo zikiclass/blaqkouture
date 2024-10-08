@@ -11,7 +11,7 @@ export default function MainContent() {
           New Blaqkouture <br />
           Collection
         </h1>
-        <p>There's Nothing like Trend</p>
+        <p>There&apos;s Nothing like Trend</p>
         <Link href="#" className={styles.mainbtn}>
           <span>Shop Now </span>
           <FaArrowRight />

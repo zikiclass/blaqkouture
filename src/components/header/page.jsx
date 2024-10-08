@@ -47,7 +47,7 @@ export default function Header() {
         </li>
         <li>
           <Link href="#" className={styles.navlinks}>
-            shop
+            collections
           </Link>
         </li>
         <li>
@@ -65,11 +65,7 @@ export default function Header() {
             children
           </Link>
         </li>
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            products
-          </Link>
-        </li>
+
         <li>
           <Link href="#" className={styles.navlinks}>
             contact us
