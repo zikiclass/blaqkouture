@@ -52,6 +52,21 @@ export default function Header() {
         </li>
         <li>
           <Link href="#" className={styles.navlinks}>
+            men
+          </Link>
+        </li>
+        <li>
+          <Link href="#" className={styles.navlinks}>
+            women
+          </Link>
+        </li>
+        <li>
+          <Link href="#" className={styles.navlinks}>
+            children
+          </Link>
+        </li>
+        <li>
+          <Link href="#" className={styles.navlinks}>
             products
           </Link>
         </li>
