@@ -35,58 +35,61 @@ export default function Header() {
     setShowMenu(!showMenu);
   };
   return (
-    <div className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
-      <Link href="#" className="logo">
-        <Image src={logo_black} alt="logo" className={styles.logo} />
-      </Link>
-      <ul className={`${styles.navmenu} ${showMenu && styles.open}`}>
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            home
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            collections
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            men
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            women
-          </Link>
-        </li>
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            children
-          </Link>
-        </li>
+    <>
+      <div className={styles.topbar}>
+        <marquee>
+          BLAQ KOUTURE - EST. 2024 - DRIP WITH STYLE ✅🔥 &nbsp;&nbsp; BLAQ
+          KOUTURE - EST. 2024 - DRIP WITH STYLE ✅🔥
+        </marquee>
+      </div>
+      <div className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
+        <Link href="#" className="logo">
+          <Image src={logo_black} alt="logo" className={styles.logo} />
+        </Link>
+        <ul className={`${styles.navmenu} ${showMenu && styles.open}`}>
+          <li>
+            <Link href="#" className={styles.navlinks}>
+              home
+            </Link>
+          </li>
+          <li>
+            <Link href="#" className={styles.navlinks}>
+              collections
+            </Link>
+          </li>
+          <li>
+            <Link href="#" className={styles.navlinks}>
+              men
+            </Link>
+          </li>
+          <li>
+            <Link href="#" className={styles.navlinks}>
+              women
+            </Link>
+          </li>
 
-        <li>
-          <Link href="#" className={styles.navlinks}>
-            contact us
-          </Link>
-        </li>
-      </ul>
+          <li>
+            <Link href="#" className={styles.navlinks}>
+              contact us
+            </Link>
+          </li>
+        </ul>
 
-      <div className={styles.navicon}>
-        <Link href="#" className={styles.nav}>
-          <SearchIcon />
-        </Link>
-        <Link href="#" className={styles.nav}>
-          <FiUser />
-        </Link>
-        <Link href="#" className={styles.nav}>
-          <FiShoppingCart />
-        </Link>
-        <div className={styles.menuicon} onClick={handleClick}>
-          {!showMenu ? <IoMdMenu /> : <MdClose />}
+        <div className={styles.navicon}>
+          <Link href="#" className={styles.nav}>
+            <SearchIcon />
+          </Link>
+          <Link href="#" className={styles.nav}>
+            <FiUser />
+          </Link>
+          <Link href="#" className={styles.nav}>
+            <FiShoppingCart />
+          </Link>
+          <div className={styles.menuicon} onClick={handleClick}>
+            {!showMenu ? <IoMdMenu /> : <MdClose />}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

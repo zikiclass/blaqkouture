@@ -18,7 +18,7 @@ export default function Contact() {
           <Image src={logo} alt="Logo" className={styles.img} />
           <p style={{ display: "flex", gap: "5px" }}>
             <MdOutlineLocationOn />
-            PTI Road, Warri, <br /> Delta State, Nigeria
+            Ugbomro, Warri, <br /> Delta State, Nigeria
           </p>
           <p style={{ display: "flex", gap: "5px" }}>
             <FaPhoneAlt />
