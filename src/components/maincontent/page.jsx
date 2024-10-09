@@ -1,12 +1,22 @@
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./style.module.css";
 import { FaArrowRight } from "react-icons/fa6";
-import img1 from "../../image/IMG_8239.jpg";
 import img2 from "../../image/IMG_82382345.png";
-import img3 from "../../image/IMG_82382567.png";
-import img4 from "../../image/IMG_823890345.png";
+import img3 from "../../image/IMG_8238132153.png";
 import Image from "next/image";
 export default function MainContent() {
+  const images = [img2, img3];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
   return (
     <section className={styles.mainhome}>
       <div className={styles.container}>
@@ -28,7 +38,14 @@ export default function MainContent() {
         </div>
 
         <div className={styles.row}>
-          <Image src={img1} alt="Display Image" className={styles.img} />
+          <Image
+            src={images[currentImageIndex]}
+            alt="Display Image"
+            className={styles.img}
+            layout="responsive"
+            width={600}
+            height={400}
+          />
         </div>
       </div>
     </section>
