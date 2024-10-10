@@ -1,4 +1,4 @@
-import Image from "next/image";
+"use client";
 import styles from "./style.module.css";
 import img1 from "../../image/1.jpg";
 import img2 from "../../image/2.jpg";
@@ -8,185 +8,52 @@ import img5 from "../../image/5.jpg";
 import img6 from "../../image/6.jpg";
 import img7 from "../../image/7.jpg";
 import img8 from "../../image/8.jpg";
-import { FaRegHeart } from "react-icons/fa";
-import { FaStar } from "react-icons/fa6";
-import { FaStarHalfAlt } from "react-icons/fa";
+import Product from "../product";
+import { useState } from "react";
 export default function TrendingProducts() {
+  const products = [img1, img2, img3, img4, img5, img6, img7, img8];
+  const [active, setActive] = useState("new");
+  const handleClick = (data) => {
+    setActive(data);
+  };
+
   return (
     <section className={styles.trendingproducts}>
       <div className={styles.centertext}>
         <h2>
-          Our Trending <span>Collections</span>
+          Our Trending <span className={styles.collection}>Collections</span>
         </h2>
+        <div>
+          <span
+            className={active === "new" && styles.active}
+            onClick={() => handleClick("new")}
+          >
+            New
+          </span>
+          <span
+            className={active === "all" && styles.active}
+            onClick={() => handleClick("all")}
+          >
+            All
+          </span>
+          <span
+            className={active === "men" && styles.active}
+            onClick={() => handleClick("men")}
+          >
+            Men
+          </span>
+          <span
+            className={active === "women" && styles.active}
+            onClick={() => handleClick("women")}
+          >
+            Women
+          </span>
+        </div>
       </div>
       <div className={styles.products}>
-        <div className={styles.row}>
-          <Image className={styles.img} src={img5} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img4} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img6} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img2} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img1} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img3} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img7} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
-
-        <div className={styles.row}>
-          <Image className={styles.img} src={img8} alt="img" />
-          <div className={styles.producttext}>
-            <h5>Sale</h5>
-          </div>
-          <div className={styles.hearticon}>
-            <FaRegHeart />
-          </div>
-          <div className={styles.ratting}>
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStar className={styles.ratestar} />
-            <FaStarHalfAlt className={styles.ratestar} />
-          </div>
-          <div className={styles.price}>
-            <h4>Half Running Set</h4>
-            <p>N25,000 - N35,000</p>
-          </div>
-        </div>
+        {products.map((pro) => (
+          <Product img={pro} />
+        ))}
       </div>
     </section>
   );

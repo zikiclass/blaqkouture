@@ -34,6 +34,9 @@ export default function Header() {
   const handleClick = () => {
     setShowMenu(!showMenu);
   };
+  const handleRemove = () => {
+    setShowMenu(false);
+  };
   return (
     <>
       <div className={styles.topbar}>
@@ -48,28 +51,40 @@ export default function Header() {
         </Link>
         <ul className={`${styles.navmenu} ${showMenu && styles.open}`}>
           <li>
-            <Link href="#" className={styles.navlinks}>
+            <Link href="/" className={styles.navlinks} onClick={handleRemove}>
               home
             </Link>
           </li>
           <li>
-            <Link href="#" className={styles.navlinks}>
+            <Link
+              href="collections"
+              onClick={handleRemove}
+              className={styles.navlinks}
+            >
               collections
             </Link>
           </li>
           <li>
-            <Link href="#" className={styles.navlinks}>
+            <Link href="men" className={styles.navlinks} onClick={handleRemove}>
               men
             </Link>
           </li>
           <li>
-            <Link href="#" className={styles.navlinks}>
+            <Link
+              href="women"
+              className={styles.navlinks}
+              onClick={handleRemove}
+            >
               women
             </Link>
           </li>
 
           <li>
-            <Link href="#" className={styles.navlinks}>
+            <Link
+              href="contact"
+              className={styles.navlinks}
+              onClick={handleRemove}
+            >
               contact us
             </Link>
           </li>

@@ -1,0 +1,28 @@
+.banner{
+    position: relative;
+    background-image: url(../../image/banner-3.png);
+    height: auto;
+    margin-top: 9rem;
+    background-position: center;
+}
+.banner::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+
+}
+.banner h3{
+    color: #111;
+    z-index: 100;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+

@@ -6,7 +6,7 @@
 .img{
     height: auto;
     width: 300px;
-    
+    border-radius: 7px;
     opacity: 0;
     animation: fadeInOut 3s ease-in-out infinite;
 }
@@ -110,5 +110,9 @@
     }
     .mainhome{
         height: auto;
+    }
+    .img{
+        width: 200px!important;
+        height: 200px!important;
     }
 }

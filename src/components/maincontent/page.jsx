@@ -3,11 +3,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "./style.module.css";
 import { FaArrowRight } from "react-icons/fa6";
+import img1 from "../../image/0c53e62b-1333-49c1-b7dc-67799722b9d0 2.JPG";
 import img2 from "../../image/IMG_82382345.png";
-import img3 from "../../image/IMG_8238132153.png";
+import img3 from "../../image/5968f1d6-695a-4d48-a44c-691e6009dd42 2.JPG";
+import img4 from "../../image/2c2bcdf3-53aa-4790-b836-477b46e0544b 4.JPG";
+import img5 from "../../image/d81a68f1-400f-4541-b9df-64ec94ac4860 2.JPG";
+import img6 from "../../image/fa04059d-2c50-4d3c-89a2-e819d95e45ea 2.JPG";
+import img7 from "../..//image/25650424-a891-4dfb-8ecd-c95605567086 2.JPG";
+
 import Image from "next/image";
 export default function MainContent() {
-  const images = [img2, img3];
+  const images = [img1, img2, img3, img4, img5, img6, img7];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {

@@ -1,0 +1,12 @@
+.product{
+    display: flex;
+    gap: 1rem;
+    margin-top: 4rem;
+}
+.imgs{
+    width: 400px;
+    height: 400px;
+    background-color: #e7e7e7;
+    padding: 3rem;
+    border-radius: 10px;
+}
