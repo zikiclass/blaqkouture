@@ -51,8 +51,8 @@ export default function TrendingProducts() {
         </div>
       </div>
       <div className={styles.products}>
-        {products.map((pro) => (
-          <Product img={pro} />
+        {products.map((pro, id) => (
+          <Product img={pro} key={id} />
         ))}
       </div>
     </section>
