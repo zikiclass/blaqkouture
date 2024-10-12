@@ -1,6 +1,6 @@
 import styles from "./trendingproducts/style.module.css";
 import Image from "next/image";
-import Link from "next/link";
+import { BsCart3 } from "react-icons/bs";
 import { FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
@@ -15,7 +15,7 @@ export default function Product({ sale, img, amt, prevAmt, title }) {
       <Image className={styles.img} src={img} alt="img" onClick={handleClick} />
       <div className={styles.producttext}>
         <h5>Sale</h5>
-        <FaShoppingCart className={styles.cart} />
+        <BsCart3 className={styles.cart} />
       </div>
       <div className={styles.addtocart}>
         <FaShoppingCart />
