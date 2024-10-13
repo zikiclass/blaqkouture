@@ -46,7 +46,7 @@ export default function Header() {
         </marquee>
       </div>
       <div className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
-        <Link href="#" className="logo">
+        <Link href="/" className="logo">
           <Image src={logo_black} alt="logo" className={styles.logo} />
         </Link>
         <ul className={`${styles.navmenu} ${showMenu && styles.open}`}>
