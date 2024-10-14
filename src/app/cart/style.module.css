@@ -1,0 +1,197 @@
+.cartContainer{
+    margin-top: 5rem;
+    display: flex;
+    gap: 3rem;
+}
+.cart h4{
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+}
+.table{
+    position: relative;
+    margin: 1.4rem 0px;
+    padding: 1rem 0px;
+    text-transform: uppercase;
+    font-size: 12px;
+    width: 100%;
+}
+.table table{
+    width: 100%;
+}
+.table table tr, .thead{
+    
+    margin: 1rem 0px!important;
+    
+}
+.table table tr{
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #111!important;
+}
+.table td{
+    text-align: left;
+    word-wrap: break-word;
+  
+}
+.thead{
+    margin-bottom: 1rem!important;
+}
+.thead td{
+    text-align: center;
+}
+.img{
+    width: 50px;
+    padding:6px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+.cta{
+    color: #7f7f7f;
+    cursor: pointer;
+    font-size: 17px;
+}
+.cta:hover{
+    color: #111;
+}
+.action{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.coupon{
+    position: relative;
+    margin-top: 3rem;
+    
+}
+.coupon form{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+}
+.coupon input[type="text"]{
+    background-color: #f5f5f5;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 3px;
+    flex: 2;
+    transition: all 0.4s ease-in-out;
+    font-size: 12px;
+}
+.coupon input[type="text"]:focus{
+    border: 1px dotted #111;
+    outline: none;
+}
+.coupon button{
+    background-color: #111;
+    color: #fff;
+    text-transform: uppercase;
+    width: auto;
+    font-size: 12px;
+    border-radius: 3px;
+    padding: 1rem;
+    
+    position: relative;
+}
+.coupon button:after{
+    content: "";
+    width: 0%;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #111;
+    border-radius: 3px;
+    transition: all 0.4s ease-in-out;
+}
+.coupon button:hover:after{
+    width: 100%;
+}
+.coupon button span{
+    position: relative;
+    color: #fff;
+    z-index: 999;
+}
+.coupon button:hover span{
+    color: #111;
+}
+.cart h4:after, .table:after, .coupon:after{
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 2px;
+    background-color: #111;
+    
+}
+.coupon:after{
+    bottom: -2rem;
+}
+
+.cart{
+    flex: 2;
+}
+.cart_totals{
+    flex: 1;
+    width: 100%;
+    font-size: 13px;
+}
+.shipping{
+   border-bottom: 1px solid #111;
+}
+
+.cart_totals h5, .subtotal, .shipping span{
+    text-transform: uppercase;
+    margin-bottom: 1.7rem;
+    
+    font-size: 15px;
+}
+.subtotal{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.total{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+.cart_totals button{
+    width: 100%;
+    background-color: #111;
+    padding: 1rem;
+    margin: 1rem 0px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.imgs{
+    display: none;
+}
+@media (max-width: 800px){
+    .cartContainer{
+        flex-direction: column;
+        gap: 4rem;
+    }
+    .table{
+        font-size: 10px;
+    }
+    .img{
+        display: none;
+    }
+    .coupon form{
+        flex-direction: column;
+    }
+    .imgs{
+        display: block;
+        width: 80px;
+    }
+    .cta{
+        margin: 2rem 0px;
+    }
+}

@@ -199,9 +199,17 @@ export default function ProductView() {
                 AVAILABILITY: <span>5 IN STOCK</span>
               </span>
               <div className={styles.quantity}>
-                <div className={styles.notallow}>-</div>
+                <button
+                  onClick={() => {
+                    if (counter > 1) setCounter(counter - 1);
+                  }}
+                >
+                  <FaMinus />
+                </button>
                 <div>{counter}</div>
-                <div>+</div>
+                <button onClick={() => setCounter(counter + 1)}>
+                  <FaPlus />
+                </button>
               </div>
               <button className={styles.cart}>add to cart</button>
               <p>this product pairs well with:</p>

@@ -1,0 +1,89 @@
+.wrapper{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+}
+.signin{
+    width: 350px;
+    background-color: #e7e7e7;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+.header{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #111;
+    color: #fff;
+    padding: 1rem;
+    font-weight: bold;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.logo{
+    width: 100px;
+    margin: 0.5rem 0px;
+}
+.signin form{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+.signin form input[type="number"]:focus, .signin form input[type="text"]:focus, .signin form input[type="email"]:focus, .signin form input[type="password"]:focus{
+    outline: none;
+}
+.signin form input[type="number"], .signin form input[type="text"], .signin form input[type="email"], .signin form input[type="password"], .signin form button{
+    width: 100%;
+    font-size: 13px;
+    padding: 0.5rem;
+    
+}
+.signin form input[type="number"]::-webkit-outer-spin-button,
+.signin form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.signin form input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+    appearance: textfield;      /* For other browsers */
+}
+.signin button{
+    background-color: #111;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.input{
+    display: flex;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-bottom: 1px solid #111;
+}
+.icon{
+    font-size: 2.3rem;
+    color: #919191;
+    text-align: center;
+    padding: 0.5rem;
+    height: 100%;
+}
+.signin form span{
+    margin: 1rem 0px;
+    text-align: center;
+    font-size: 13px;
+}
+.signup{
+    color: #f00;
+    font-weight: bold;
+    cursor: pointer;
+}
+@media (max-width: 600px){
+    .signin{
+        width: 300px;
+    }
+}

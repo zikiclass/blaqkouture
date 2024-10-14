@@ -160,35 +160,26 @@
   
   .quantity {
     display: flex;
+    align-items: center;
     margin: 1rem 0px;
     gap: 1.3rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 45%;
+    width: 120px;
+    padding: 0px!important;
   }
   
-  .quantity div {
-    cursor: pointer;
-    padding: 10px;
-    text-align: center;
-  }
+
   
-  .quantity div:first-child {
-    padding-left: 15px;
-    border-right: 1px solid #ccc;
+ 
+  .quantity button{
+    color: #111!important;
+    padding: 1rem 10px!important;
+    background-color: #e7e7e7 !important;
+    margin: 0px!important;
+    
   }
-  
-  .quantity .notallow {
-    cursor: not-allowed;
-    background-color: #f4f4f4;
-    color: #b9b9b9;
-    font-weight: bold;
-  }
-  
-  .quantity div:last-child {
-    padding-left: 15px;
-    border-left: 1px solid #ccc;
-  }
+
   
   .addtocart button {
     background-color: #111;

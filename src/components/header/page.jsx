@@ -97,7 +97,7 @@ export default function Header() {
           <Link href="#" className={styles.nav}>
             <FiUser />
           </Link>
-          <Link href="#" className={styles.nav}>
+          <Link href="cart" className={styles.nav}>
             <FiShoppingCart />
           </Link>
           <div className={styles.menuicon} onClick={handleClick}>
