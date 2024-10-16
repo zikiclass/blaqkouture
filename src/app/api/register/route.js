@@ -58,34 +58,3 @@ export async function POST(request) {
     console.error("Prisma Client Error:", err);
   }
 }
-
-export async function GET(request) {
-  try {
-    const user = await prisma.user.findMany();
-
-    if (user) {
-      return NextResponse.json(user, { status: 200 });
-    } else {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return NextResponse.json(body.email, { status: 500 });
-  }
-}
-
-export async function DELETE(req) {
-  try {
-    const adminId = req.nextUrl.searchParams.get("id");
-    const id = parseInt(adminId);
-    const deleteAdmin = await prisma.user.delete({
-      where: {
-        id,
-      },
-    });
-    if (deleteAdmin) return NextResponse.json("success", { status: 200 });
-    return NextResponse.json("error", { status: 404 });
-  } catch (error) {
-    return NextResponse.json(error, { status: 500 });
-  }
-}
