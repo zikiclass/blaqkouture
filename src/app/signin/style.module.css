@@ -82,6 +82,13 @@
     font-weight: bold;
     cursor: pointer;
 }
+.wrapper p{
+    color: var(--color-danger);
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    font-size: 12px;
+    font-weight: 500;
+}
 @media (max-width: 600px){
     .signin{
         width: 300px;

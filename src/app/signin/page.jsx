@@ -7,6 +7,10 @@ import logo from "@/image/logo.png";
 import Link from "next/link";
 import { AiTwotoneMail } from "react-icons/ai";
 import { RiLockPasswordFill } from "react-icons/ri";
+
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 export default function SignIn() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -15,6 +19,27 @@ export default function SignIn() {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  const router = useRouter();
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: email.value,
+        password: password.value,
+      });
+      if (result.error) {
+        toast.error("Invalid login credentials");
+      } else {
+        router.push("/blaq_/admin/dashboard");
+      }
+    } catch (error) {
+      toast.error("Sign in failed. Please try again");
+    }
+  };
   return (
     <>
       {loading ? (
@@ -29,7 +54,8 @@ export default function SignIn() {
                 </Link>
                 <h5>Sign In</h5>
               </div>
-              <form>
+              <form onSubmit={handleSignIn}>
+                <Toaster position="bottom-left" />
                 <div className={styles.input}>
                   <input
                     type="email"
