@@ -7,6 +7,7 @@
     font-weight: bold;
     text-transform: uppercase;
     position: relative;
+
 }
 .table{
     position: relative;
@@ -91,9 +92,9 @@
     border-radius: 3px;
     padding: 1rem;
     
-    position: relative;
+    /* position: relative; */
 }
-.coupon button:after{
+/* .coupon button:after{
     content: "";
     width: 0%;
     height: 100%;
@@ -107,15 +108,15 @@
 }
 .coupon button:hover:after{
     width: 100%;
-}
+} */
 .coupon button span{
     position: relative;
     color: #fff;
     z-index: 999;
 }
-.coupon button:hover span{
+/* .coupon button:hover span{
     color: #111;
-}
+} */
 .cart h4:after, .table:after, .coupon:after{
     position: absolute;
     content: "";
