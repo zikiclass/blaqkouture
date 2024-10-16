@@ -11,6 +11,8 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Swal from "sweetalert2";
+
 export default function SignIn() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -23,6 +25,7 @@ export default function SignIn() {
   const router = useRouter();
   const handleSignIn = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const { email, password } = event.target.elements;
 
     try {
@@ -31,13 +34,28 @@ export default function SignIn() {
         email: email.value,
         password: password.value,
       });
+
+      setLoading(false);
       if (result.error) {
-        toast.error("Invalid login credentials");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Invalid login credentials!",
+          timer: 1500,
+        });
       } else {
+        Swal.fire({
+          icon: "success",
+          title: "Access Granted",
+          text: "Login successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
         router.push("/blaq_/admin/dashboard");
       }
     } catch (error) {
-      toast.error("Sign in failed. Please try again");
+      toast.error("Sign in failed. Please try again " + error);
     }
   };
   return (

@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function Signup() {
   const [loading, setLoading] = useState(true);
@@ -56,10 +57,19 @@ export default function Signup() {
                 onSubmit={handleSubmit(async (data) => {
                   try {
                     await axios.post("/api/register", { ...data });
-                    toast.success("Account has been registered");
+                    Swal.fire({
+                      icon: "success",
+                      text: "Account has been registered.",
+                    });
+
                     router.push("/signin");
                   } catch (error) {
-                    toast.error(error.message);
+                    Swal.fire({
+                      icon: "error",
+                      title: "Something went wrong",
+                      text: error.message,
+                      timer: 1500,
+                    });
                   }
                 })}
               >

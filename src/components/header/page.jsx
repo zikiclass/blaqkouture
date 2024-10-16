@@ -94,7 +94,7 @@ export default function Header() {
           <Link href="#" className={styles.nav}>
             <SearchIcon />
           </Link>
-          <Link href="#" className={styles.nav}>
+          <Link href="signin" className={styles.nav}>
             <FiUser />
           </Link>
           <Link href="cart" className={styles.nav}>
