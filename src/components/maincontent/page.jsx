@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./style.module.css";
 import { FaArrowRight } from "react-icons/fa6";
 import img1 from "../../image/0c53e62b-1333-49c1-b7dc-67799722b9d0 2.JPG";
-import img2 from "../../image/IMG_82382345.png";
+import img2 from "../../image/9f8f2ef2-6cc7-4bfe-96e6-52c88302afaa 2.JPG";
 import img3 from "../../image/5968f1d6-695a-4d48-a44c-691e6009dd42 2.JPG";
 import img4 from "../../image/2c2bcdf3-53aa-4790-b836-477b46e0544b 4.JPG";
 import img5 from "../../image/d81a68f1-400f-4541-b9df-64ec94ac4860 2.JPG";
@@ -19,7 +19,7 @@ export default function MainContent() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [images.length]);

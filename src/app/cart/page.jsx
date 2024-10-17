@@ -10,6 +10,8 @@ import { MdClose } from "react-icons/md";
 import img from "../../image/a28f3b1c-00be-4f69-be0f-f916a31d8bf1 2.JPG";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 export default function Cart() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -18,6 +20,8 @@ export default function Cart() {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+  const router = useRouter();
+  const { data: session, status } = useSession();
   return (
     <>
       {loading ? (
@@ -91,16 +95,24 @@ export default function Cart() {
                 <span>₦ 194,700.00</span>
               </div>
 
-              <button>proceed to checkout</button>
-              <span>
-                Already have an account?{" "}
-                <Link
-                  href="signin"
-                  style={{ color: "#f00", fontWeight: "bold" }}
-                >
-                  Sign In
-                </Link>
-              </span>
+              <button
+                disabled={status === "unauthenticated" ? true : false}
+                className={status === "unauthenticated" && `${styles.disabled}`}
+                onClick={() => router.push("/checkout")}
+              >
+                proceed to checkout
+              </button>
+              {status === "unauthenticated" && (
+                <span>
+                  Already have an account?{" "}
+                  <Link
+                    href="signin"
+                    style={{ color: "#f00", fontWeight: "bold" }}
+                  >
+                    Sign In
+                  </Link>
+                </span>
+              )}
             </div>
           </section>
           <TrendingProducts />

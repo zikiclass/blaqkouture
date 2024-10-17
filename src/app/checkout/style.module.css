@@ -1,0 +1,163 @@
+.checkout{
+    margin-top: 7rem;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 2rem;
+    text-transform: uppercase;
+}
+.payment{
+    font-size: 13px;
+    flex: 1;
+}
+.payment h3, .product, .billing h2{
+    font-weight: 500;
+}
+.product{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed #ccc;
+    
+}
+.sub_product{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0px;
+    border-bottom: 1px dashed #ccc;
+}
+.sub_product .img{
+    width: 50px;
+}
+.subtotal{
+    padding: 1rem 0px;
+    border-bottom: 1px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.subtotal div{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.total{
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.6rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid #ccc;
+}
+.coupon{
+    padding: 1.3rem 0px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+.coupon form{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.coupon form input[type="text"]{
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 5px;
+    border: 1px solid #111;
+}
+.coupon button{
+    background-color: #111;
+    width: 30%;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+.paystack{
+    background-color: #edecec;
+    padding: 0.6rem 1rem;
+}
+.paystack div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.paystack div:last-child{
+    width: 100%;
+    background-color: white;
+    padding: 4px 8px;
+}
+.credit{
+    width: 60%;
+}
+.terms{
+    padding: 0.5rem 0px;
+}
+.terms input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+.terms span{
+    text-transform:none!important;
+    
+}
+.import{
+    color: #f00;
+}
+.placeOrder{
+    width: 100%;
+    margin-top: 0.5rem;
+    background-color: #111;
+    padding: 0.8rem 0px;
+    border-radius: 5px;
+    color: #fff;
+    text-transform: uppercase;
+}
+.billing{
+    flex: 1;
+    font-size: 14px;
+}
+.billing h2{
+    margin-bottom: 1.8rem;
+}
+.billing input[type="text"], .billing select{
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #111;
+}
+.billing input[type="text"]:focus, .billing select:focus, .coupon form input[type="text"]:focus{
+    outline: none;
+}
+.row{ 
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+}
+.row div{
+    width: 100%;
+}
+.input{
+    margin-bottom: 1rem;
+}
+
+
+@media screen and (max-width: 768px){
+    .checkout{
+        flex-direction: column-reverse;
+    }
+    .row{
+        flex-direction: column;
+    }
+    
+    .sub_product .title{
+        width: 40%;
+    }
+   .sub_product .img{
+        width: 40px;
+    }
+}

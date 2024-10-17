@@ -57,6 +57,22 @@
     font-size: 25px;
     font-weight: 400;
     transition: all .42s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.cartCount{
+    background-color: #EE1C47;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 11px;
+    color: #fff;
+    padding: 2px 7px;
+    font-weight: 500;
+    border-radius: 50%;
 }
 
 .nav:hover{
@@ -70,7 +86,9 @@
     cursor: pointer;
     display: none;
 }
-
+.smallText{
+    font-size: 10px!important;
+}
 @media (max-width: 890px){
     .header{
         padding: 20px 3%;

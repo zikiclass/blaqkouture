@@ -9,9 +9,14 @@ import { FiShoppingCart } from "react-icons/fi";
 import { IoMdMenu } from "react-icons/io";
 import styles from "./style.module.css";
 import { MdClose } from "react-icons/md";
+import { FaUserTie } from "react-icons/fa6";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 export default function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const { data: session, status } = useSession();
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -36,6 +41,16 @@ export default function Header() {
   };
   const handleRemove = () => {
     setShowMenu(false);
+  };
+
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error during NextAuth sign out", error);
+    }
   };
   return (
     <>
@@ -91,14 +106,21 @@ export default function Header() {
         </ul>
 
         <div className={styles.navicon}>
-          <Link href="#" className={styles.nav}>
+          {/* <Link href="#" className={styles.nav}>
             <SearchIcon />
-          </Link>
-          <Link href="signin" className={styles.nav}>
-            <FiUser />
-          </Link>
+          </Link> */}
+
+          {status === "unauthenticated" ? (
+            <Link href="signin" className={styles.nav}>
+              <FiUser />
+            </Link>
+          ) : (
+            <button onClick={handleSignOut} className={styles.nav}>
+              <FaUserTie /> <span className={styles.smallText}>Sign Out</span>
+            </button>
+          )}
           <Link href="cart" className={styles.nav}>
-            <FiShoppingCart />
+            <FiShoppingCart /> <span className={styles.cartCount}>1</span>
           </Link>
           <div className={styles.menuicon} onClick={handleClick}>
             {!showMenu ? <IoMdMenu /> : <MdClose />}

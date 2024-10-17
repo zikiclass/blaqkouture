@@ -55,21 +55,14 @@ export default function Signup() {
               <form
                 action=""
                 onSubmit={handleSubmit(async (data) => {
+                  setLoading(true);
                   try {
                     await axios.post("/api/register", { ...data });
-                    Swal.fire({
-                      icon: "success",
-                      text: "Account has been registered.",
-                    });
-
+                    setLoading(false);
+                    toast.success("Account successfully registered");
                     router.push("/signin");
                   } catch (error) {
-                    Swal.fire({
-                      icon: "error",
-                      title: "Something went wrong",
-                      text: error.message,
-                      timer: 1500,
-                    });
+                    toast.error(error.message || "Something went wrong");
                   }
                 })}
               >

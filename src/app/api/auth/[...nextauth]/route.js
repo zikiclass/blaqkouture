@@ -13,19 +13,35 @@ export const authOptions = {
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        let user;
 
+        // Check if the login is for an admin or a regular user
+        if (credentials?.isAdmin === "true") {
+          // Ensure isAdmin is a string if coming from a form
+          user = await prisma.admin.findUnique({
+            where: { email: credentials.email },
+          });
+        } else {
+          user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
+        }
+
+        // If no user is found, return null
         if (!user) return null;
 
+        // Check if the password matches
         const passwordsMatch = await bcrypt.compare(
           credentials.password,
           user.password
         );
 
-        // Return the user object with all required fields
-        return passwordsMatch ? user : null;
+        // Return the user object if the password matches, otherwise null
+        if (passwordsMatch) {
+          return user;
+        } else {
+          return null;
+        }
       },
     }),
   ],

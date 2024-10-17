@@ -33,6 +33,7 @@ export default function SignIn() {
         redirect: false,
         email: email.value,
         password: password.value,
+        isAdmin: false,
       });
 
       setLoading(false);
@@ -44,15 +45,9 @@ export default function SignIn() {
           timer: 1500,
         });
       } else {
-        Swal.fire({
-          icon: "success",
-          title: "Access Granted",
-          text: "Login successful",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        toast.success("Login successful");
 
-        router.push("/blaq_/admin/dashboard");
+        router.push("/checkout");
       }
     } catch (error) {
       toast.error("Sign in failed. Please try again " + error);
