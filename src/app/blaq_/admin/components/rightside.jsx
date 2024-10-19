@@ -8,7 +8,9 @@ import { HiShoppingCart } from "react-icons/hi";
 import { MdLocalMall } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
+import { useRouter } from "next/navigation";
 export default function RightSide({ showMenu }) {
+  const router = useRouter();
   return (
     <div className={styles.right}>
       <div className={styles.top}>
@@ -102,7 +104,10 @@ export default function RightSide({ showMenu }) {
               <h3>849</h3>
             </div>
           </div>
-          <div className={`${styles.item} ${styles.add_product}`}>
+          <div
+            className={`${styles.item} ${styles.add_product}`}
+            onClick={() => router.push("add_new_product")}
+          >
             <div>
               <span>
                 <IoMdAdd />

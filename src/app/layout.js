@@ -1,3 +1,4 @@
+import GlobalState from "@/context";
 import AuthProvider from "./auth/Provider";
 import "./globals.css";
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <GlobalState>{children}</GlobalState>
+        </AuthProvider>
       </body>
     </html>
   );
