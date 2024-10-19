@@ -41,6 +41,15 @@ export default function AddProducts() {
     router.push("signin");
   }
 
+  const [productsList, setProductList] = useState([]);
+  const getProduct = async () => {
+    const response = await axios.get(`/api/product`);
+    if (response.data) setProductList(response.data);
+  };
+  useEffect(() => {
+    getProduct();
+  }, []);
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -178,8 +187,7 @@ export default function AddProducts() {
                               className={styles.btnAdd}
                               onClick={() => open()}
                             >
-                              Select Second Image{" "}
-                              <span className={styles.import}>*</span>
+                              Second Image (Optional)
                             </button>
                           )
                         }
@@ -238,8 +246,7 @@ export default function AddProducts() {
                               className={styles.btnAdd}
                               onClick={() => open()}
                             >
-                              Select Third Image{" "}
-                              <span className={styles.import}>*</span>
+                              Third Image (Optional)
                             </button>
                           )
                         }
@@ -255,18 +262,6 @@ export default function AddProducts() {
                           text: "Please select first image",
                           icon: "error",
                         });
-                      } else if (!img2) {
-                        Swal.fire({
-                          title: "Error",
-                          text: "Please select second image",
-                          icon: "error",
-                        });
-                      } else if (!img3) {
-                        Swal.fire({
-                          title: "Error",
-                          text: "Please select third image",
-                          icon: "error",
-                        });
                       } else {
                         try {
                           await axios.post("/api/product", {
@@ -276,7 +271,7 @@ export default function AddProducts() {
                             img3,
                           });
                           Swal.fire({
-                            title: "Error",
+                            title: "Success",
                             text: "Product added successfully",
                             icon: "success",
                           });
@@ -319,6 +314,24 @@ export default function AddProducts() {
                           {...register("overprice")}
                         />
                         {errors.overprice && <p>{errors.overprice.message}</p>}
+                      </div>
+
+                      <div className={styles.input}>
+                        <span>
+                          Associated With:
+                          <span className={styles.import}>*</span>
+                        </span>
+                        <select
+                          name="associatedWith"
+                          {...register("associatedWith")}
+                        >
+                          <option value="-">None</option>
+                          {productsList.map((list, index) => (
+                            <option key={index} value={list.productId}>
+                              {list.title + " (" + list.productId + ")"}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                     <div className={styles.input}>
@@ -367,7 +380,7 @@ export default function AddProducts() {
                           Weight (KG): <span className={styles.import}>*</span>
                         </span>
                         <input
-                          type="number"
+                          type="text"
                           name="weight"
                           {...register("weight")}
                         />

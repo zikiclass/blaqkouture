@@ -12,7 +12,7 @@ import Loader from "@/components/Loader";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { CldImage } from "next-cloudinary";
-
+import Swal from "sweetalert2";
 export default function Products() {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -43,6 +43,30 @@ export default function Products() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleDelete = (productId) => {
+    Swal.fire({
+      title: "Do you want to delete this product?",
+      showDenyButton: true,
+      confirmButtonText: "Delete",
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const deleteProduct = async () => {
+          const response = await axios.delete("/api/product", {
+            params: { productId },
+          });
+          if (response.status === 200) {
+            getProduct();
+            Swal.fire("Deleted!", "", "success");
+          }
+        };
+        deleteProduct();
+      } else if (result.isDenied) {
+        Swal.fire("Actions denied.", "", "info");
+      }
+    });
+  };
   return (
     <>
       {loading ? (
@@ -72,18 +96,36 @@ export default function Products() {
                     <tbody>
                       {productsList.map((list, index) => (
                         <tr key={index}>
-                          <td>{list.title}</td>
-                          <td>{list.productId}</td>
-                          <td>{list.price}</td>
                           <td>
-                            <CldImage
-                              src={list.img1}
-                              width={100}
-                              height={100}
-                              alt="Blaq Kouture"
-                            />
+                            <Link href={`edit_product?id=${list.productId}`}>
+                              {list.title}
+                            </Link>
                           </td>
-                          <td className={styles.actions}>
+                          <td>
+                            <Link href={`edit_product?id=${list.productId}`}>
+                              {list.productId}
+                            </Link>
+                          </td>
+                          <td>
+                            <Link href={`edit_product?id=${list.productId}`}>
+                              {list.price}
+                            </Link>
+                          </td>
+                          <td>
+                            <Link href={`edit_product?id=${list.productId}`}>
+                              {" "}
+                              <CldImage
+                                src={list.img1}
+                                width={100}
+                                height={100}
+                                alt="Blaq Kouture"
+                              />{" "}
+                            </Link>
+                          </td>
+                          <td
+                            className={styles.actions}
+                            onClick={() => handleDelete(list.productId)}
+                          >
                             <span className={styles.danger}>
                               <MdDelete />
                             </span>

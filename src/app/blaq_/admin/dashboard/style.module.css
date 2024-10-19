@@ -498,7 +498,7 @@
     -moz-appearance: textfield;
     appearance: textfield;     
 }
-.table form button{
+.table form button, .delete_btn{
     background-color: var(--color-success);
     display: flex;
     align-items: center;
@@ -508,6 +508,13 @@
     justify-content: center;
     border-radius: 5px;
     margin-bottom: 10px;
+   
+}
+.update_btn{
+    background-color: var(--color-primary)!important;
+}
+.delete_btn{
+    background-color: var(--color-danger)!important;
 }
 .group{
     flex-direction: row!important;

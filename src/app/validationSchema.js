@@ -21,10 +21,11 @@ export const userSchema = z
   });
 export const productSchema = z.object({
   title: z.string().min(1, "Product title is required"),
-  price: z.string().min(1, "Price is required"),
-  overprice: z.string().min(1, "Overrated price is required"),
+  price: z.number().min(1, "Price is required"),
+  overprice: z.number().min(1, "Overrated price is required"),
   details: z.string().min(1, "Product details is required"),
   stockquantity: z.string().min(1, "Stock quantity is required"),
   weight: z.string().min(1, "Weight is required"),
   collection: z.string().min(1, "Collection is required"),
+  associatedWith: z.string().min(1, "Associated with is required"),
 });

@@ -29,16 +29,17 @@ model Admin {
 }
 
 model Product {
-    productId     Int      @id @default(autoincrement())
-    title         String
-    price         Float
-    overprice     Float?
-    details       String?
-    stockquantity String?
-    weight        String?
-    img1          String?
-    img2          String?
-    img3          String?
-    collection    String?
-    date          DateTime @default(now())
+    productId      Int      @id @default(autoincrement())
+    title          String
+    price          Float
+    overprice      Float?
+    details        String?
+    stockquantity  String?
+    weight         String?
+    img1           String?
+    img2           String?
+    img3           String?
+    collection     String?
+    associatedWith String?
+    date           DateTime @default(now())
 }
