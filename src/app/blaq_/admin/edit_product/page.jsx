@@ -257,10 +257,12 @@ export default function EditProduct() {
                         <div className={styles.group}>
                           <div className={styles.input}>
                             <span>
-                              Availability in stock:{" "}
+                              Availability in stock (
+                              {uniqueProduct.stockquantity}):{" "}
                               <span className={styles.import}>*</span>
                             </span>
                             <select name="stock" {...register("stockquantity")}>
+                              <option value={0}>Out of Stock</option>
                               {Array.from({ length: 100 }, (_, i) => (
                                 <option key={i + 1} value={i + 1}>
                                   {i + 1}

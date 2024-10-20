@@ -360,6 +360,7 @@ export default function AddProducts() {
                           name="stock"
                           {...register("stockquantity")}
                         >
+                          <option value={0}>Out of Stock</option>
                           {Array.from({ length: 100 }, (_, i) => (
                             <option key={i + 1} value={i + 1}>
                               {i + 1}

@@ -76,7 +76,7 @@ export default function Header() {
               onClick={handleRemove}
               className={styles.navlinks}
             >
-              collections
+              all collections
             </Link>
           </li>
           <li>
@@ -120,7 +120,7 @@ export default function Header() {
             </button>
           )}
           <Link href="cart" className={styles.nav}>
-            <FiShoppingCart /> <span className={styles.cartCount}>1</span>
+            <FiShoppingCart /> <span className={styles.cartCount}>0</span>
           </Link>
           <div className={styles.menuicon} onClick={handleClick}>
             {!showMenu ? <IoMdMenu /> : <MdClose />}

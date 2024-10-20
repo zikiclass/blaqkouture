@@ -106,7 +106,7 @@
     font-size: 1.5rem;
   }
   
-  .prod span {
+  .prod_price {
     font-weight: bold;
     font-size: 2rem;
     color: #27b737;
@@ -115,12 +115,12 @@
     gap: 0.41rem;
   }
   
-  .prod span span {
+.prod_overprice {
     color: #ccc;
     font-size: 1.4rem;
     font-weight: normal;
     text-decoration: line-through double;
-  }
+  } 
   
   .addtocart {
     width: 100%;

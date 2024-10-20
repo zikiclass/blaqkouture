@@ -7,7 +7,7 @@ import Footer from "@/components/footer/page";
 import Header from "@/components/header/page";
 import Loader from "@/components/Loader";
 import News from "@/components/news/page";
-import TrendingProducts from "@/components/trendingproducts/page";
+import UniqueProduct from "@/components/uniqueproducts/page";
 
 export default function Women() {
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export default function Women() {
         <>
           <Header />
           <Banner text="Blaq Kouture" />
-          <TrendingProducts />
+          <UniqueProduct title="Women's" />
           <ClientReviews />
           <News />
           <Contact />
