@@ -298,7 +298,9 @@ export default function AddProducts() {
                         <input
                           type="number"
                           name="price"
-                          {...register("price")}
+                          {...register("price", {
+                            setValueAs: (value) => parseFloat(value),
+                          })}
                         />
                         {errors.price && <p>{errors.price.message}</p>}
                       </div>
@@ -311,7 +313,9 @@ export default function AddProducts() {
                         <input
                           type="number"
                           name="overprice"
-                          {...register("overprice")}
+                          {...register("overprice", {
+                            setValueAs: (value) => parseFloat(value),
+                          })}
                         />
                         {errors.overprice && <p>{errors.overprice.message}</p>}
                       </div>

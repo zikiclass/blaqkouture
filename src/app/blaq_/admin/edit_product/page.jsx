@@ -5,7 +5,7 @@ import Sidebar from "../components/sidebar";
 import { MdSystemUpdateAlt, MdDelete } from "react-icons/md";
 import RightSide from "../components/rightside";
 import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { CldImage } from "next-cloudinary";
 import axios from "axios";
@@ -14,10 +14,10 @@ import { productSchema } from "@/app/validationSchema";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import SearchParamsWrapper from "../components/suspensewrap";
 
 export default function EditProduct() {
-  const searchParams = useSearchParams();
-  const productId = searchParams.get("id");
+  const [id, setId] = useState(null);
   const [uniqueProduct, setUniqueProduct] = useState({});
   const [productsList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,14 +43,12 @@ export default function EditProduct() {
     const getUniqueProduct = async () => {
       try {
         const response = await axios.get(
-          `/api/product/uniqueproduct?productId=${productId}`
+          `/api/product/uniqueproduct?productId=${id}`
         );
         if (response.data) {
           setUniqueProduct(response.data);
         }
       } catch (error) {
-        console.error("Error fetching product details:", error);
-        toast.error("Failed to fetch product details");
       } finally {
         setLoading(false);
       }
@@ -70,7 +68,7 @@ export default function EditProduct() {
 
     getProduct();
     getUniqueProduct();
-  }, [productId]);
+  }, [id]);
 
   const {
     register,
@@ -128,173 +126,198 @@ export default function EditProduct() {
       {loading ? (
         <Loader />
       ) : (
-        <div className={styles.container}>
-          <Sidebar menu={menu} closeMenu={closeMenu} />
-          <main className={styles.main}>
-            <h1 style={{ display: "flex", alignItems: "center" }}>
-              <MdSystemUpdateAlt style={{ marginRight: "4px" }} /> Update
-              Product
-            </h1>
+        <SearchParamsWrapper>
+          {(id) => {
+            setId(id); // Set the `id` from SearchParamsWrapper
+            return (
+              <div className={styles.container}>
+                <Sidebar menu={menu} closeMenu={closeMenu} />
+                <main className={styles.main}>
+                  <h1 style={{ display: "flex", alignItems: "center" }}>
+                    <MdSystemUpdateAlt style={{ marginRight: "4px" }} /> Update
+                    Product
+                  </h1>
 
-            <div className={styles.recent_orders}>
-              <div className={styles.table}>
-                <div className={styles.imagesUpload}>
-                  {uniqueProduct.img1 && (
-                    <CldImage
-                      src={uniqueProduct.img1}
-                      width={150}
-                      height={150}
-                      alt="Product Image 1"
-                      style={{ marginBottom: "1rem" }}
-                    />
-                  )}
-                  {uniqueProduct.img2 && (
-                    <CldImage
-                      src={uniqueProduct.img2}
-                      width={150}
-                      height={150}
-                      alt="Product Image 2"
-                      style={{ marginBottom: "1rem" }}
-                    />
-                  )}
-                  {uniqueProduct.img3 && (
-                    <CldImage
-                      src={uniqueProduct.img3}
-                      width={150}
-                      height={150}
-                      alt="Product Image 3"
-                      style={{ marginBottom: "1rem" }}
-                    />
-                  )}
-                </div>
+                  <div className={styles.recent_orders}>
+                    <div className={styles.table}>
+                      <div className={styles.imagesUpload}>
+                        {uniqueProduct.img1 && (
+                          <CldImage
+                            src={uniqueProduct.img1}
+                            width={150}
+                            height={150}
+                            alt="Product Image 1"
+                            style={{ marginBottom: "1rem" }}
+                          />
+                        )}
+                        {uniqueProduct.img2 && (
+                          <CldImage
+                            src={uniqueProduct.img2}
+                            width={150}
+                            height={150}
+                            alt="Product Image 2"
+                            style={{ marginBottom: "1rem" }}
+                          />
+                        )}
+                        {uniqueProduct.img3 && (
+                          <CldImage
+                            src={uniqueProduct.img3}
+                            width={150}
+                            height={150}
+                            alt="Product Image 3"
+                            style={{ marginBottom: "1rem" }}
+                          />
+                        )}
+                      </div>
 
-                <form
-                  onSubmit={handleSubmit(async (data) => {
-                    try {
-                      await axios.put("/api/product", {
-                        ...data,
-                        productId,
-                      });
-                      toast.success("Product updated successfully");
-                      setTimeout(() => {
-                        router.push("/products");
-                      }, 1000);
-                    } catch (error) {
-                      toast.error("Failed to update product");
-                    }
-                  })}
-                >
-                  <Toaster position="bottom-left" />
-                  <div className={styles.input}>
-                    <span>
-                      Title: <span className={styles.import}>*</span>
-                    </span>
-                    <input type="text" name="title" {...register("title")} />
-                    {errors.title && <p>{errors.title.message}</p>}
-                  </div>
-                  <div className={styles.group}>
-                    <div className={styles.input}>
-                      <span>
-                        Actual Price: <span className={styles.import}>*</span>
-                      </span>
-                      <input
-                        type="number"
-                        name="price"
-                        {...register("price")}
-                      />
-                      {errors.price && <p>{errors.price.message}</p>}
-                    </div>
-                    <div className={styles.input}>
-                      <span>
-                        Overrated Price:{" "}
-                        <span className={styles.import}>*</span>
-                      </span>
-                      <input
-                        type="number"
-                        name="overprice"
-                        {...register("overprice")}
-                      />
-                      {errors.overprice && <p>{errors.overprice.message}</p>}
-                    </div>
-                    <div className={styles.input}>
-                      <span>
-                        Associated With ({uniqueProduct.associatedWith}):
-                        <span className={styles.import}>*</span>
-                      </span>
-                      <select
-                        name="associatedWith"
-                        {...register("associatedWith")}
+                      <form
+                        onSubmit={handleSubmit(async (data) => {
+                          try {
+                            await axios.put("/api/product", {
+                              ...data,
+                              id,
+                            });
+                            toast.success("Product updated successfully");
+                            setTimeout(() => {
+                              router.push("products");
+                            }, 1000);
+                          } catch (error) {
+                            toast.error("Failed to update product");
+                          }
+                        })}
                       >
-                        <option value="-">None</option>
-                        {productsList.map((list, index) => (
-                          <option key={index} value={list.productId}>
-                            {list.title} ({list.productId})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className={styles.input}>
-                    <span>
-                      Details: <span className={styles.import}>*</span>
-                    </span>
-                    <textarea {...register("details")} />
-                    {errors.details && <p>{errors.details.message}</p>}
-                  </div>
-                  <div className={styles.group}>
-                    <div className={styles.input}>
-                      <span>
-                        Availability in stock:{" "}
-                        <span className={styles.import}>*</span>
-                      </span>
-                      <select name="stock" {...register("stockquantity")}>
-                        {Array.from({ length: 100 }, (_, i) => (
-                          <option key={i + 1} value={i + 1}>
-                            {i + 1}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.stockquantity && (
-                        <p>{errors.stockquantity.message}</p>
-                      )}
-                    </div>
-                    <div className={styles.input}>
-                      <span>
-                        Collection ({uniqueProduct.collection}):{" "}
-                        <span className={styles.import}>*</span>
-                      </span>
-                      <select name="collection" {...register("collection")}>
-                        <option value="men">Men</option>
-                        <option value="women">Women</option>
-                      </select>
-                    </div>
-                    <div className={styles.input}>
-                      <span>
-                        Weight (KG): <span className={styles.import}>*</span>
-                      </span>
-                      <input
-                        type="text"
-                        name="weight"
-                        {...register("weight")}
-                      />
-                      {errors.weight && <p>{errors.weight.message}</p>}
-                    </div>
-                  </div>
+                        <Toaster position="bottom-left" />
+                        <div className={styles.input}>
+                          <span>
+                            Title: <span className={styles.import}>*</span>
+                          </span>
+                          <input
+                            type="text"
+                            name="title"
+                            {...register("title")}
+                          />
+                          {errors.title && <p>{errors.title.message}</p>}
+                        </div>
+                        <div className={styles.group}>
+                          <div className={styles.input}>
+                            <span>
+                              Actual Price:{" "}
+                              <span className={styles.import}>*</span>
+                            </span>
+                            <input
+                              type="number"
+                              name="price"
+                              {...register("price", {
+                                setValueAs: (value) => parseFloat(value),
+                              })}
+                            />
+                            {errors.price && <p>{errors.price.message}</p>}
+                          </div>
+                          <div className={styles.input}>
+                            <span>
+                              Overrated Price:{" "}
+                              <span className={styles.import}>*</span>
+                            </span>
+                            <input
+                              type="number"
+                              name="overprice"
+                              {...register("overprice", {
+                                setValueAs: (value) => parseFloat(value),
+                              })}
+                            />
+                            {errors.overprice && (
+                              <p>{errors.overprice.message}</p>
+                            )}
+                          </div>
+                          <div className={styles.input}>
+                            <span>
+                              Associated With ({uniqueProduct.associatedWith}):
+                              <span className={styles.import}>*</span>
+                            </span>
+                            <select
+                              name="associatedWith"
+                              {...register("associatedWith")}
+                            >
+                              <option value="-">None</option>
+                              {productsList.map((list, index) => (
+                                <option key={index} value={list.productId}>
+                                  {list.title} ({list.productId})
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className={styles.input}>
+                          <span>
+                            Details: <span className={styles.import}>*</span>
+                          </span>
+                          <textarea {...register("details")} />
+                          {errors.details && <p>{errors.details.message}</p>}
+                        </div>
+                        <div className={styles.group}>
+                          <div className={styles.input}>
+                            <span>
+                              Availability in stock:{" "}
+                              <span className={styles.import}>*</span>
+                            </span>
+                            <select name="stock" {...register("stockquantity")}>
+                              {Array.from({ length: 100 }, (_, i) => (
+                                <option key={i + 1} value={i + 1}>
+                                  {i + 1}
+                                </option>
+                              ))}
+                            </select>
+                            {errors.stockquantity && (
+                              <p>{errors.stockquantity.message}</p>
+                            )}
+                          </div>
+                          <div className={styles.input}>
+                            <span>
+                              Collection ({uniqueProduct.collection}):{" "}
+                              <span className={styles.import}>*</span>
+                            </span>
+                            <select
+                              name="collection"
+                              {...register("collection")}
+                            >
+                              <option value="men">Men</option>
+                              <option value="women">Women</option>
+                            </select>
+                          </div>
+                          <div className={styles.input}>
+                            <span>
+                              Weight (KG):{" "}
+                              <span className={styles.import}>*</span>
+                            </span>
+                            <input
+                              type="text"
+                              name="weight"
+                              {...register("weight")}
+                            />
+                            {errors.weight && <p>{errors.weight.message}</p>}
+                          </div>
+                        </div>
 
-                  <button type="submit" className={styles.update_btn}>
-                    <MdSystemUpdateAlt /> Update Product
-                  </button>
-                </form>
+                        <button type="submit" className={styles.update_btn}>
+                          <MdSystemUpdateAlt /> Update Product
+                        </button>
+                      </form>
 
-                <button className={styles.delete_btn} onClick={handleDelete}>
-                  <MdDelete /> Delete Product
-                </button>
+                      <button
+                        className={styles.delete_btn}
+                        onClick={handleDelete}
+                      >
+                        <MdDelete /> Delete Product
+                      </button>
+                    </div>
+                  </div>
+                </main>
+
+                <RightSide showMenu={showMenu} />
               </div>
-            </div>
-          </main>
-
-          <RightSide showMenu={showMenu} />
-        </div>
+            );
+          }}
+        </SearchParamsWrapper>
       )}
     </>
   );
