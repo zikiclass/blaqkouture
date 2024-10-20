@@ -16,6 +16,7 @@ const roboto = Roboto({
 //   title: "Blaq Kouture",
 //   description: "Blaqkouture",
 // };
+//
 
 export default function RootLayout({ children }) {
   useEffect(() => {
