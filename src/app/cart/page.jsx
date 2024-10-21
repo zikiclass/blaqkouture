@@ -62,8 +62,8 @@ export default function Cart() {
                       <td>quantity</td>
                       <td>subtotal</td>
                     </tr>
-                    {cart.map((item) => (
-                      <tr>
+                    {cart.map((item, index) => (
+                      <tr key={index}>
                         <td className={styles.action}>
                           <MdClose
                             className={styles.cta}
