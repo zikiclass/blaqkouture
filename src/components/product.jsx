@@ -7,8 +7,12 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { CldImage } from "next-cloudinary";
 import img1 from "../image/defaultimg.jpg";
+import { useCart } from "@/context/cartContext";
+
 export default function Product({ sale, img, amt, prevAmt, title, productId }) {
   const router = useRouter();
+  const { cart, addToCart } = useCart();
+
   const handleClick = (productId, sale) => {
     if (sale !== "0") {
       router.push(`/product?id=${productId}`);
@@ -26,6 +30,21 @@ export default function Product({ sale, img, amt, prevAmt, title, productId }) {
       "https://res.cloudinary.com/dd0yi5utp/image/upload/v1729430075/";
     return `${cloudinaryBaseUrl}${publicId}`;
   };
+
+  const handleAddToCart = () => {
+    const productToAdd = {
+      productId,
+      title,
+      price: amt,
+      img,
+      quantity: 1,
+    };
+    addToCart(productToAdd);
+  };
+
+  // Check if the product is already in the cart
+  const isProductInCart = cart.some((item) => item.productId === productId);
+
   return (
     <div className={styles.row}>
       {!img ? (
@@ -50,15 +69,22 @@ export default function Product({ sale, img, amt, prevAmt, title, productId }) {
 
       <div className={styles.producttext}>
         {sale === "0" && <h5>Out of Stock</h5>}
-        {sale !== "0" && <BsCart3 className={styles.cart} />}
+        {sale !== "0" && !isProductInCart && (
+          <BsCart3 className={styles.cart} />
+        )}
       </div>
 
-      {sale !== "0" && (
-        <div className={styles.addtocart}>
-          <FaShoppingCart />
-          Add to Cart
-        </div>
-      )}
+      {sale !== "0" &&
+        (!isProductInCart ? (
+          <div className={styles.addtocart} onClick={handleAddToCart}>
+            <FaShoppingCart />
+            Add to Cart
+          </div>
+        ) : (
+          <div className={styles.addtocart_}>
+            <span>Added to Cart</span>
+          </div>
+        ))}
       <div className={styles.ratting} onClick={() => handleClick(productId)}>
         <FaStar className={styles.ratestar} />
         <FaStar className={styles.ratestar} />

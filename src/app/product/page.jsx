@@ -15,6 +15,8 @@ import Header from "@/components/header/page";
 import SearchParamsWrapper from "../blaq_/admin/components/suspensewrap";
 import axios from "axios";
 import { CldImage } from "next-cloudinary";
+import { useCart } from "@/context/cartContext";
+import { useRouter } from "next/navigation";
 export default function ProductView() {
   const [id, setId] = useState(null);
   const [productDetails, setProductDetails] = useState(false);
@@ -23,9 +25,9 @@ export default function ProductView() {
   const [uniqueProduct, setUniqueProduct] = useState({});
   const [pro, setPro] = useState({});
   const [counter, setCounter] = useState(1);
-
+  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const { cart, addToCart } = useCart();
   const handlePrevSlide = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
@@ -96,6 +98,18 @@ export default function ProductView() {
     uniqueProduct.img2 && getCloudinaryUrl(uniqueProduct.img2),
     uniqueProduct.img3 && getCloudinaryUrl(uniqueProduct.img3),
   ].filter(Boolean);
+
+  const handleAddToCart = () => {
+    const productToAdd = {
+      productId: id,
+      title: uniqueProduct.title,
+      price: uniqueProduct.price,
+      img: uniqueProduct.img1,
+      quantity: counter,
+    };
+    addToCart(productToAdd);
+    router.push("/cart");
+  };
   return (
     <>
       {loading ? (
@@ -274,11 +288,18 @@ export default function ProductView() {
                         <FaMinus />
                       </button>
                       <div>{counter}</div>
-                      <button onClick={() => setCounter(counter + 1)}>
+                      <button
+                        onClick={() => {
+                          if (counter < parseInt(uniqueProduct.stockquantity))
+                            setCounter(counter + 1);
+                        }}
+                      >
                         <FaPlus />
                       </button>
                     </div>
-                    <button className={styles.cart}>add to cart</button>
+                    <button className={styles.cart} onClick={handleAddToCart}>
+                      add to cart
+                    </button>
                     {uniqueProduct.associatedWith !== "-" && (
                       <>
                         <p>this product pairs well with:</p>

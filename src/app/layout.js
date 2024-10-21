@@ -5,6 +5,7 @@ import AuthProvider from "./auth/Provider";
 import "./globals.css";
 import { useEffect } from "react";
 import { Roboto } from "next/font/google";
+import { CartProvider } from "@/context/cartContext";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
@@ -39,7 +40,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={roboto.className}>
         <AuthProvider>
-          <GlobalState>{children}</GlobalState>
+          <GlobalState>
+            <CartProvider>{children}</CartProvider>
+          </GlobalState>
         </AuthProvider>
       </body>
     </html>

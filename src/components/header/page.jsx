@@ -13,6 +13,7 @@ import { FaUserTie } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useCart } from "@/context/cartContext";
 export default function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -52,6 +53,8 @@ export default function Header() {
       console.error("Error during NextAuth sign out", error);
     }
   };
+  const { cart } = useCart();
+  const itemCount = cart.length;
   return (
     <>
       <div className={styles.topbar}>
@@ -76,7 +79,7 @@ export default function Header() {
               onClick={handleRemove}
               className={styles.navlinks}
             >
-              all collections
+              collections
             </Link>
           </li>
           <li>
@@ -120,7 +123,8 @@ export default function Header() {
             </button>
           )}
           <Link href="cart" className={styles.nav}>
-            <FiShoppingCart /> <span className={styles.cartCount}>0</span>
+            <FiShoppingCart />{" "}
+            <span className={styles.cartCount}>{itemCount}</span>
           </Link>
           <div className={styles.menuicon} onClick={handleClick}>
             {!showMenu ? <IoMdMenu /> : <MdClose />}

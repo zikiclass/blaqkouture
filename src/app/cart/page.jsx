@@ -12,7 +12,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/context/cartContext";
+import { CldImage } from "next-cloudinary";
 export default function Cart() {
+  const { cart, removeFromCart } = useCart();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,6 +25,20 @@ export default function Cart() {
   }, []);
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  const getCloudinaryUrl = (publicId) => {
+    const cloudinaryBaseUrl =
+      "https://res.cloudinary.com/dd0yi5utp/image/upload/v1729430075/";
+    return `${cloudinaryBaseUrl}${publicId}`;
+  };
+  const NumberWithCommas = ({ numberString }) => {
+    const number = Number(numberString);
+    const formattedNumber = number.toLocaleString();
+    return <span>₦ {formattedNumber}</span>;
+  };
+  const totalPrice = cart.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
   return (
     <>
       {loading ? (
@@ -34,86 +51,115 @@ export default function Cart() {
               <h4>cart</h4>
 
               <div className={styles.table}>
-                <table>
-                  <tr className={styles.thead}>
-                    <td></td>
-                    <td>product</td>
-                    <td>price</td>
-                    <td>quantity</td>
-                    <td>subtotal</td>
-                  </tr>
-                  <tr>
-                    <td className={styles.action}>
-                      <MdClose className={styles.cta} />
-                      <Image src={img} alt="img" className={styles.img} />
-                    </td>
-                    <td>
-                      <Image src={img} alt="img" className={styles.imgs} /> HF
-                      PANEL CAP ORANGE - One Size Fits All, Orange
-                    </td>
-                    <td>₦165,000.00</td>
-                    <td style={{ textAlign: "center" }}>1</td>
-                    <td>₦165,000.00</td>
-                  </tr>
-                </table>
+                {cart.length === 0 ? (
+                  <center>Your cart is empty</center>
+                ) : (
+                  <table>
+                    <tr className={styles.thead}>
+                      <td></td>
+                      <td>product</td>
+                      <td>price</td>
+                      <td>quantity</td>
+                      <td>subtotal</td>
+                    </tr>
+                    {cart.map((item) => (
+                      <tr>
+                        <td className={styles.action}>
+                          <MdClose
+                            className={styles.cta}
+                            onClick={() => removeFromCart(item.productId)}
+                          />
+                          <CldImage
+                            height={50}
+                            width={100}
+                            src={getCloudinaryUrl(item.img)}
+                            className={styles.img}
+                            alt="img"
+                          />
+                        </td>
+                        <td>
+                          <Image src={img} alt="img" className={styles.imgs} />{" "}
+                          {item.title}
+                        </td>
+                        <td>
+                          <NumberWithCommas numberString={item.price} />
+                        </td>
+                        <td style={{ textAlign: "center" }}>{item.quantity}</td>
+                        <td>
+                          <NumberWithCommas
+                            numberString={
+                              parseFloat(item.price) * parseInt(item.quantity)
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </table>
+                )}
               </div>
-              <div className={styles.coupon}>
-                <form>
-                  <input type="text" placeholder="COUPON CODE" />
-                  <button type="submit">
-                    <span>apply coupon</span>
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div className={styles.cart_totals}>
-              <h5>cart totals</h5>
-              <div className={styles.subtotal}>
-                <span>subtotal</span>
-                <span>₦ 165,000.00</span>
-              </div>
-              <div className={styles.shipping}>
-                <span style={{ marginBottom: "0.4rem" }}>
-                  <b>shipping</b>
-                </span>
-                <div>
-                  <p style={{ color: "#444" }}>
-                    <span style={{ textTransform: "Capitalize" }}>
-                      Shipping:
-                    </span>
-                    <b>₦ 29,700.00</b>
-                  </p>
-                  <p style={{ color: "#444", marginBottom: "0.7rem" }}>
-                    <span>
-                      SHIPPING TO <b>LAGOS</b>
-                    </span>
-                  </p>
+              {cart.length > 0 && (
+                <div className={styles.coupon}>
+                  <form>
+                    <input type="text" placeholder="COUPON CODE" />
+                    <button type="submit">
+                      <span>apply coupon</span>
+                    </button>
+                  </form>
                 </div>
-              </div>
-              <div className={styles.total}>
-                <span>total</span>
-                <span>₦ 194,700.00</span>
-              </div>
-
-              <button
-                disabled={status === "unauthenticated" ? true : false}
-                className={status === "unauthenticated" && `${styles.disabled}`}
-                onClick={() => router.push("/checkout")}
-              >
-                proceed to checkout
-              </button>
-              {status === "unauthenticated" && (
-                <span>
-                  Already have an account?{" "}
-                  <Link
-                    href="signin"
-                    style={{ color: "#f00", fontWeight: "bold" }}
-                  >
-                    Sign In
-                  </Link>
-                </span>
               )}
             </div>
+            {cart.length > 0 && (
+              <div className={styles.cart_totals}>
+                <h5>cart totals</h5>
+                <div className={styles.subtotal}>
+                  <span>subtotal</span>
+                  <span>₦{totalPrice.toLocaleString()}</span>
+                </div>
+                <div className={styles.shipping}>
+                  <span style={{ marginBottom: "0.4rem" }}>
+                    <b>shipping</b>
+                  </span>
+                  <div>
+                    <p style={{ color: "#444" }}>
+                      <span style={{ textTransform: "Capitalize" }}>
+                        Shipping:
+                      </span>
+                      <b>₦ 29,700.00</b>
+                    </p>
+                    <p style={{ color: "#444", marginBottom: "0.7rem" }}>
+                      <span>
+                        SHIPPING TO <b>LAGOS</b>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.total}>
+                  <span>total</span>
+                  <span>₦{totalPrice.toLocaleString()}</span>
+                </div>
+
+                <button
+                  disabled={status === "unauthenticated" ? true : false}
+                  className={
+                    status === "unauthenticated" && `${styles.disabled}`
+                  }
+                  onClick={() => router.push("/checkout")}
+                >
+                  proceed to checkout
+                </button>
+                {status === "unauthenticated" && (
+                  <span>
+                    Already have an account?{" "}
+                    <Link
+                      href="signin"
+                      style={{ color: "#f00", fontWeight: "bold" }}
+                    >
+                      Sign In
+                    </Link>
+                  </span>
+                )}
+              </div>
+            )}
           </section>
           <TrendingProducts />
           <Contact />

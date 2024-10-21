@@ -40,13 +40,10 @@
     width: 100%;
     height: 280px!important;
     height: auto;
-    transition: all .40s;
     margin-bottom: 10px;
 }
 
-.row .img:hover{
-    transform: scale(0.9);
-}
+
 .producttext h5{
     position: absolute;
     top: 13px;
@@ -72,7 +69,7 @@
     cursor: pointer;
     color: #FF8C00;
 }
-.addtocart{
+.addtocart, .addtocart_{
     position: absolute;
     right: 0;
     display: flex;
@@ -86,6 +83,9 @@
     font-size: 14px;
     cursor: pointer;
     transition: .1s ease-in-out;
+}
+.addtocart_{
+    background-color: #000;
 }
 .addtocart:hover{
     background-color: #000;
@@ -134,6 +134,9 @@
     }
     .centertext div{
         width: 100%;
+    }
+    .row .img{
+        height: 300px!important;
     }
     
 }

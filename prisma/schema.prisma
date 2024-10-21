@@ -15,6 +15,7 @@ model User {
     email    String    @unique
     phone    String?
     password String?
+    carts    Cart[]
     date     DateTime?
 }
 
@@ -41,5 +42,16 @@ model Product {
     img3           String?
     collection     String?
     associatedWith String?
+    cart           Cart[]
     date           DateTime @default(now())
+}
+
+model Cart {
+    cartId    Int      @id @default(autoincrement())
+    productId Int
+    userId    Int
+    quantity  Int
+    user      User     @relation(fields: [userId], references: [id])
+    product   Product  @relation(fields: [productId], references: [productId])
+    createdAt DateTime @default(now())
 }
