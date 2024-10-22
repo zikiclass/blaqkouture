@@ -15,12 +15,12 @@ import Swal from "sweetalert2";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const router = useRouter();
   const handleSignIn = async (event) => {
@@ -54,49 +54,41 @@ export default function SignIn() {
     }
   };
   return (
+    // <>
+    //   {loading ? (
+    //     <Loader />
+    //   ) : (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className={styles.wrapper}>
-            <div className={styles.signin}>
-              <div className={styles.header}>
-                <Link href="/">
-                  <Image src={logo} alt="logo" className={styles.logo} />
-                </Link>
-                <h5>Sign In</h5>
-              </div>
-              <form onSubmit={handleSignIn}>
-                <Toaster position="bottom-left" />
-                <div className={styles.input}>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email Address"
-                  />
-                  <AiTwotoneMail className={styles.icon} />
-                </div>
-                <div className={styles.input}>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                  />
-                  <RiLockPasswordFill className={styles.icon} />
-                </div>
-                <button type="submit">Sign In</button>
-                <span>
-                  Don&apos;t have an account?{" "}
-                  <Link href="signup" className={styles.signup}>
-                    Sign Up
-                  </Link>
-                </span>
-              </form>
-            </div>
+      <div className={styles.wrapper}>
+        <div className={styles.signin}>
+          <div className={styles.header}>
+            <Link prefetch={true} href="/">
+              <Image src={logo} alt="logo" className={styles.logo} />
+            </Link>
+            <h5>Sign In</h5>
           </div>
-        </>
-      )}
+          <form onSubmit={handleSignIn}>
+            <Toaster position="bottom-left" />
+            <div className={styles.input}>
+              <input type="email" name="email" placeholder="Email Address" />
+              <AiTwotoneMail className={styles.icon} />
+            </div>
+            <div className={styles.input}>
+              <input type="password" name="password" placeholder="Password" />
+              <RiLockPasswordFill className={styles.icon} />
+            </div>
+            <button type="submit">Sign In</button>
+            <span>
+              Don&apos;t have an account?{" "}
+              <Link prefetch={true} href="signup" className={styles.signup}>
+                Sign Up
+              </Link>
+            </span>
+          </form>
+        </div>
+      </div>
     </>
+    //   )}
+    // </>
   );
 }

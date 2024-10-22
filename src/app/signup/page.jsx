@@ -21,12 +21,12 @@ import Swal from "sweetalert2";
 
 export default function Signup() {
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -39,99 +39,97 @@ export default function Signup() {
   //   router.push("signin");
   // }
   return (
+    // <>
+    //   {loading ? (
+    //     <Loader />
+    //   ) : (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className={styles.wrapper}>
-            <div className={styles.signin}>
-              <div className={styles.header}>
-                <Link href="/">
-                  <Image src={logo} alt="logo" className={styles.logo} />
-                </Link>
-                <h5>Sign Up</h5>
-              </div>
-              <form
-                action=""
-                onSubmit={handleSubmit(async (data) => {
-                  setLoading(true);
-                  try {
-                    await axios.post("/api/register", { ...data });
-                    setLoading(false);
-                    toast.success("Account successfully registered");
-                    router.push("/signin");
-                  } catch (error) {
-                    toast.error(error.message || "Something went wrong");
-                  }
-                })}
-              >
-                <Toaster position="bottom-left" />
-                <div className={styles.input}>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Full name"
-                    {...register("name")}
-                  />
-                  <FaUser className={styles.icon} />
-                </div>
-                {errors.name && <p>{errors.name.message}</p>}
-                <div className={styles.input}>
-                  <input
-                    type="email"
-                    name="email"
-                    {...register("email")}
-                    placeholder="Email Address"
-                  />
-                  <AiTwotoneMail className={styles.icon} />
-                </div>
-                {errors.email && <p>{errors.email.message}</p>}
-                <div className={styles.input}>
-                  <input
-                    type="number"
-                    name="phone"
-                    placeholder="Phone Number"
-                    {...register("phone")}
-                    maxLength={11}
-                  />
-                  <FaPhone className={styles.icon} />
-                </div>
-                {errors.phone && <p>{errors.phone.message}</p>}
-                <div className={styles.input}>
-                  <input
-                    type="password"
-                    name="password"
-                    {...register("password")}
-                    placeholder="Password"
-                  />
-                  <RiLockPasswordFill className={styles.icon} />
-                </div>
-                {errors.password && <p>{errors.password.message}</p>}
-                <div className={styles.input}>
-                  <input
-                    type="password"
-                    name="confirm_password"
-                    {...register("confirmPassword")}
-                    placeholder="Confirm Password"
-                  />
-                  <RiLockPasswordFill className={styles.icon} />
-                </div>
-                {errors.confirmPassword && (
-                  <p>{errors.confirmPassword.message}</p>
-                )}
-                <button type="submit">Sign Up</button>
-                <span>
-                  Already have an account?{" "}
-                  <Link href="signin" className={styles.signup}>
-                    Sign In
-                  </Link>
-                </span>
-              </form>
-            </div>
+      <div className={styles.wrapper}>
+        <div className={styles.signin}>
+          <div className={styles.header}>
+            <Link prefetch={true} href="/">
+              <Image src={logo} alt="logo" className={styles.logo} />
+            </Link>
+            <h5>Sign Up</h5>
           </div>
-        </>
-      )}
+          <form
+            action=""
+            onSubmit={handleSubmit(async (data) => {
+              setLoading(true);
+              try {
+                await axios.post("/api/register", { ...data });
+                setLoading(false);
+                toast.success("Account successfully registered");
+                router.push("/signin");
+              } catch (error) {
+                toast.error(error.message || "Something went wrong");
+              }
+            })}
+          >
+            <Toaster position="bottom-left" />
+            <div className={styles.input}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Full name"
+                {...register("name")}
+              />
+              <FaUser className={styles.icon} />
+            </div>
+            {errors.name && <p>{errors.name.message}</p>}
+            <div className={styles.input}>
+              <input
+                type="email"
+                name="email"
+                {...register("email")}
+                placeholder="Email Address"
+              />
+              <AiTwotoneMail className={styles.icon} />
+            </div>
+            {errors.email && <p>{errors.email.message}</p>}
+            <div className={styles.input}>
+              <input
+                type="number"
+                name="phone"
+                placeholder="Phone Number"
+                {...register("phone")}
+                maxLength={11}
+              />
+              <FaPhone className={styles.icon} />
+            </div>
+            {errors.phone && <p>{errors.phone.message}</p>}
+            <div className={styles.input}>
+              <input
+                type="password"
+                name="password"
+                {...register("password")}
+                placeholder="Password"
+              />
+              <RiLockPasswordFill className={styles.icon} />
+            </div>
+            {errors.password && <p>{errors.password.message}</p>}
+            <div className={styles.input}>
+              <input
+                type="password"
+                name="confirm_password"
+                {...register("confirmPassword")}
+                placeholder="Confirm Password"
+              />
+              <RiLockPasswordFill className={styles.icon} />
+            </div>
+            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+            <button type="submit">Sign Up</button>
+            <span>
+              Already have an account?{" "}
+              <Link prefetch={true} href="signin" className={styles.signup}>
+                Sign In
+              </Link>
+            </span>
+          </form>
+        </div>
+      </div>
     </>
+    //   )}
+    // </>
   );
 }

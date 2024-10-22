@@ -11,27 +11,27 @@ import UniqueProduct from "@/components/uniqueproducts/page";
 
 export default function Collections() {
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
   return (
+    // <>
+    //   {loading ? (
+    //     <Loader />
+    //   ) : (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <Header />
-          <Banner text="Blaq Kouture" />
-          <UniqueProduct title="All" />
-          <ClientReviews />
-          <News />
-          <Contact />
-          <Footer />
-        </>
-      )}
+      <Header />
+      <Banner text="Blaq Kouture" />
+      <UniqueProduct title="All" />
+      <ClientReviews />
+      <News />
+      <Contact />
+      <Footer />
     </>
+    //   )}
+    // </>
   );
 }

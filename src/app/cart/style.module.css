@@ -142,7 +142,14 @@
 .shipping{
    border-bottom: 1px solid #111;
 }
-
+.shipping div p{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.shipping div p span{
+    margin-bottom: 0px;
+}
 .cart_totals h5, .subtotal, .shipping span{
     text-transform: uppercase;
     margin-bottom: 1.7rem;

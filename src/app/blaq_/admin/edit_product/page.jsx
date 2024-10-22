@@ -85,7 +85,7 @@ export default function EditProduct() {
       setValue("price", uniqueProduct.price);
       setValue("overprice", uniqueProduct.overprice);
       setValue("details", uniqueProduct.details);
-      setValue("weight", uniqueProduct.weight);
+      setValue("tax", uniqueProduct.tax);
       setValue("associatedWith", uniqueProduct.associatedWith);
       setValue("collection", uniqueProduct.collection);
     }
@@ -285,18 +285,6 @@ export default function EditProduct() {
                               <option value="men">Men</option>
                               <option value="women">Women</option>
                             </select>
-                          </div>
-                          <div className={styles.input}>
-                            <span>
-                              Weight (KG):{" "}
-                              <span className={styles.import}>*</span>
-                            </span>
-                            <input
-                              type="text"
-                              name="weight"
-                              {...register("weight")}
-                            />
-                            {errors.weight && <p>{errors.weight.message}</p>}
                           </div>
                         </div>
 

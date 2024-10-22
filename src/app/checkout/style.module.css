@@ -1,4 +1,4 @@
-.checkout{
+.checkout form{
     margin-top: 7rem;
     display: flex;
     flex-direction: row-reverse;
@@ -144,10 +144,14 @@
 .input{
     margin-bottom: 1rem;
 }
+.error{
+    color: var(--color-danger);
+    font-size: 12px;
 
+}
 
 @media screen and (max-width: 768px){
-    .checkout{
+    .checkout form{
         flex-direction: column-reverse;
     }
     .row{

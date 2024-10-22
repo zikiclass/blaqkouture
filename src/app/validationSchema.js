@@ -25,7 +25,15 @@ export const productSchema = z.object({
   overprice: z.number().min(1, "Overrated price is required"),
   details: z.string().min(1, "Product details is required"),
   stockquantity: z.string().min(1, "Stock quantity is required"),
-  weight: z.string().min(1, "Weight is required"),
   collection: z.string().min(1, "Collection is required"),
   associatedWith: z.string().min(1, "Associated with is required"),
+});
+
+export const billingSchema = z.object({
+  firstName: z.string().min(1, "Firstname is required"),
+  lastName: z.string().min(1, "Lastname is required"),
+  state: z.string().min(1, "State is required"),
+  streetAddress: z.string().min(1, "Street address is required"),
+  townCity: z.string().min(1, "Town / City is required"),
+  phoneNumber: z.string().min(11, "Valid phone number is required"),
 });

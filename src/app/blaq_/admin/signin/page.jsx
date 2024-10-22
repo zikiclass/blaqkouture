@@ -67,7 +67,7 @@ export default function SignIn() {
           <div className={styles.wrapper}>
             <div className={styles.signin}>
               <div className={styles.header}>
-                <Link href="/">
+                <Link prefetch={true} href="/">
                   <Image src={logo} alt="logo" className={styles.logo} />
                 </Link>
                 <h5>Admin</h5>

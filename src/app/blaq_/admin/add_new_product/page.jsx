@@ -380,17 +380,6 @@ export default function AddProducts() {
                           <option value="women">Women</option>
                         </select>
                       </div>
-                      <div className={styles.input}>
-                        <span>
-                          Weight (KG): <span className={styles.import}>*</span>
-                        </span>
-                        <input
-                          type="text"
-                          name="weight"
-                          {...register("weight")}
-                        />
-                        {errors.weight && <p>{errors.weight.message}</p>}
-                      </div>
                     </div>
 
                     <button type="submit">

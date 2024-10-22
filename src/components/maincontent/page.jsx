@@ -37,7 +37,7 @@ export default function MainContent() {
             EST. 2024
           </p>
 
-          <Link href="#" className={styles.mainbtn}>
+          <Link prefetch={true} href="collections" className={styles.mainbtn}>
             <span>Shop Now </span>
             <FaArrowRight />
           </Link>

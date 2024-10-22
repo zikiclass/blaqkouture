@@ -30,37 +30,49 @@ export default function Contact() {
           </p>
 
           <div className={styles.socialicon}>
-            <Link href="#" className={styles.icon}>
+            <Link prefetch={true} href="#" className={styles.icon}>
               <RiFacebookFill />
             </Link>
-            <Link href="#" className={styles.icon}>
+            <Link prefetch={true} href="#" className={styles.icon}>
               <LuInstagram />
             </Link>
-            <Link href="#" className={styles.icon}>
+            <Link prefetch={true} href="#" className={styles.icon}>
               <FaTwitter />
             </Link>
-            <Link href="#" className={styles.icon}>
+            <Link prefetch={true} href="#" className={styles.icon}>
               <FaYoutube />
             </Link>
-            <Link href="#" className={styles.icon}>
+            <Link prefetch={true} href="#" className={styles.icon}>
               <FaLinkedinIn />
             </Link>
           </div>
         </div>
         <div className={styles.secondinfo}>
           <h4>Support</h4>
-          <p>Contact Us</p>
-          <p>About Us</p>
+          <p>
+            <Link prefetch={true} href="/contact">
+              Contact Us
+            </Link>
+          </p>
+          {/* <p>About Us</p>
           <p>Size Guide</p>
           <p>Shopping &amp; Resturns</p>
-          <p>Privacy</p>
+          <p>Privacy</p> */}
         </div>
         <div className={styles.thirdinfo}>
           <h4>Shop</h4>
-          <p>Men&apos;s Shopping</p>
-          <p>Women&apos;s Shopping</p>
-          <p>Kid&apos;s Shopping</p>
-          <p>Discount</p>
+          <p>
+            <Link prefetch={true} href="/men">
+              Men&apos;s Shopping
+            </Link>
+          </p>
+          <p>
+            <Link prefetch={true} href="/women">
+              Women&apos;s Shopping
+            </Link>
+          </p>
+          {/* <p>Kid&apos;s Shopping</p>
+          <p>Discount</p> */}
         </div>
         <div className={styles.fourthinfo}>
           <h4>Company</h4>
@@ -69,7 +81,7 @@ export default function Contact() {
           <p>Affiliate</p>
           <p>Login</p>
         </div>
-        <div className={styles.five}>
+        {/* <div className={styles.five}>
           <h4>Subscribe</h4>
           <p>
             Receive Updates, Hot Deals, Discounts Sent Straight In Your Inbox
@@ -83,7 +95,7 @@ export default function Contact() {
             Receive Updates, Hot Deals, Discounts Sent Straight In Your Inbox
             Daily
           </p>
-        </div>
+        </div> */}
       </div>
     </section>
   );

@@ -64,12 +64,17 @@ export default function Header() {
         </marquee>
       </div>
       <div className={`${styles.header} ${isSticky ? styles.sticky : ""}`}>
-        <Link href="/" className="logo">
+        <Link prefetch={true} href="/" className="logo">
           <Image src={logo_black} alt="logo" className={styles.logo} />
         </Link>
         <ul className={`${styles.navmenu} ${showMenu && styles.open}`}>
           <li>
-            <Link href="/" className={styles.navlinks} onClick={handleRemove}>
+            <Link
+              prefetch={true}
+              href="/"
+              className={styles.navlinks}
+              onClick={handleRemove}
+            >
               home
             </Link>
           </li>
@@ -83,7 +88,12 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link href="men" className={styles.navlinks} onClick={handleRemove}>
+            <Link
+              prefetch={true}
+              href="men"
+              className={styles.navlinks}
+              onClick={handleRemove}
+            >
               men
             </Link>
           </li>
@@ -109,12 +119,12 @@ export default function Header() {
         </ul>
 
         <div className={styles.navicon}>
-          {/* <Link href="#" className={styles.nav}>
+          {/* <Link prefetch={true}href="#" className={styles.nav}>
             <SearchIcon />
           </Link> */}
 
           {status === "unauthenticated" ? (
-            <Link href="signin" className={styles.nav}>
+            <Link prefetch={true} href="signin" className={styles.nav}>
               <FiUser />
             </Link>
           ) : (
@@ -122,9 +132,11 @@ export default function Header() {
               <FaUserTie /> <span className={styles.smallText}>Sign Out</span>
             </button>
           )}
-          <Link href="cart" className={styles.nav}>
+          <Link prefetch={true} href="cart" className={styles.nav}>
             <FiShoppingCart />{" "}
-            <span className={styles.cartCount}>{itemCount}</span>
+            {itemCount > 0 && (
+              <span className={styles.cartCount}>{itemCount}</span>
+            )}
           </Link>
           <div className={styles.menuicon} onClick={handleClick}>
             {!showMenu ? <IoMdMenu /> : <MdClose />}

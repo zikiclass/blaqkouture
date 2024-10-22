@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { CldImage } from "next-cloudinary";
 import img1 from "../image/defaultimg.jpg";
 import { useCart } from "@/context/cartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Product({ sale, img, amt, prevAmt, title, productId }) {
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function Product({ sale, img, amt, prevAmt, title, productId }) {
       quantity: 1,
     };
     addToCart(productToAdd);
+    toast.success("Product added to cart successfully");
   };
 
   // Check if the product is already in the cart
@@ -47,6 +49,7 @@ export default function Product({ sale, img, amt, prevAmt, title, productId }) {
 
   return (
     <div className={styles.row}>
+      <Toaster position="top-right" />
       {!img ? (
         <Image
           src={img1}

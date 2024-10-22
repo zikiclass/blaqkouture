@@ -181,7 +181,7 @@ export default function Admin() {
                     </tbody>
                   </table>
                 </div>
-                <Link href="#" className={styles.showAll}>
+                <Link prefetch={true} href="#" className={styles.showAll}>
                   Show All
                 </Link>
               </div>

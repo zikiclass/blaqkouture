@@ -77,7 +77,11 @@ export default function Products() {
             <Sidebar menu={menu} closeMenu={closeMenu} />
             <main className={styles.main}>
               <h1>Products</h1>
-              <Link href="add_new_product" className={styles.button}>
+              <Link
+                prefetch={true}
+                href="add_new_product"
+                className={styles.button}
+              >
                 <IoMdAdd />
                 Add Product
               </Link>
@@ -97,22 +101,34 @@ export default function Products() {
                       {productsList.map((list, index) => (
                         <tr key={index}>
                           <td>
-                            <Link href={`edit_product?id=${list.productId}`}>
+                            <Link
+                              prefetch={true}
+                              href={`edit_product?id=${list.productId}`}
+                            >
                               {list.title}
                             </Link>
                           </td>
                           <td>
-                            <Link href={`edit_product?id=${list.productId}`}>
+                            <Link
+                              prefetch={true}
+                              href={`edit_product?id=${list.productId}`}
+                            >
                               {list.productId}
                             </Link>
                           </td>
                           <td>
-                            <Link href={`edit_product?id=${list.productId}`}>
+                            <Link
+                              prefetch={true}
+                              href={`edit_product?id=${list.productId}`}
+                            >
                               {list.price}
                             </Link>
                           </td>
                           <td>
-                            <Link href={`edit_product?id=${list.productId}`}>
+                            <Link
+                              prefetch={true}
+                              href={`edit_product?id=${list.productId}`}
+                            >
                               {" "}
                               <CldImage
                                 src={list.img1}
@@ -135,7 +151,7 @@ export default function Products() {
                     </tbody>
                   </table>
                 </div>
-                {/* <Link href="#" className={styles.showAll}>
+                {/* <Link prefetch={true}href="#" className={styles.showAll}>
                   Show All
                 </Link> */}
               </div>

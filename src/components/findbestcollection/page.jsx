@@ -12,7 +12,7 @@ export default function FindBestCollection() {
         <div>
           <h2>Find the best drip from our shop</h2>
           <p>Drip with style</p>
-          <Link href="#" className={styles.mainbtn}>
+          <Link prefetch={true} href="#" className={styles.mainbtn}>
             <span>Shop Now </span>
             <FaArrowRight />
           </Link>

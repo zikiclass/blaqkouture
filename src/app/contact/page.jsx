@@ -9,26 +9,26 @@ import Header from "@/components/header/page";
 
 export default function ContactUs() {
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
   return (
+    // <>
+    //   {loading ? (
+    //     <Loader />
+    //   ) : (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <Header />
-          <Banner text="Contact Us" />
-          <GetInTouch />
+      <Header />
+      <Banner text="Contact Us" />
+      <GetInTouch />
 
-          <Contact />
-          <Footer />
-        </>
-      )}
+      <Contact />
+      <Footer />
     </>
+    //   )}
+    // </>
   );
 }

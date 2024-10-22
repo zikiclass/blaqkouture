@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useState, useEffect, useContext } from "react";
-
+import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
@@ -31,10 +32,17 @@ export function CartProvider({ children }) {
   const removeFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.productId !== productId);
     setCart(updatedCart);
+    toast.success("Product removed from cart");
+    // Swal.fire({
+    //   icon: "success",
+    //   title: "Removed",
+    //   text: "Product removed from cart!",
+    // });
   };
 
   return (
     <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+      <Toaster position="top-right" />
       {children}
     </CartContext.Provider>
   );

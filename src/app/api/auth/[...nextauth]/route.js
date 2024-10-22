@@ -38,7 +38,7 @@ export const authOptions = {
 
         // Return the user object if the password matches, otherwise null
         if (passwordsMatch) {
-          return user;
+          return { id: user.id, name: user.name, email: user.email };
         } else {
           return null;
         }
@@ -48,6 +48,21 @@ export const authOptions = {
 
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
+  callbacks: {
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
   },
 
   pages: {

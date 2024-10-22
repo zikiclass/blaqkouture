@@ -16,6 +16,7 @@ model User {
     phone    String?
     password String?
     carts    Cart[]
+    billing  Billing[]
     date     DateTime?
 }
 
@@ -36,7 +37,6 @@ model Product {
     overprice      Float?
     details        String?
     stockquantity  String?
-    weight         String?
     img1           String?
     img2           String?
     img3           String?
@@ -54,4 +54,17 @@ model Cart {
     user      User     @relation(fields: [userId], references: [id])
     product   Product  @relation(fields: [productId], references: [productId])
     createdAt DateTime @default(now())
+}
+
+model Billing {
+    id            Int      @id @default(autoincrement())
+    userId        Int
+    firstName     String?
+    lastName      String?
+    state         String?
+    streetAddress String?
+    townCity      String?
+    phoneNumber   String?
+    user          User     @relation(fields: [userId], references: [id])
+    createdAt     DateTime @default(now())
 }
