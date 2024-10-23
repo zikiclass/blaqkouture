@@ -1,5 +1,6 @@
 "use client";
 import Header from "@/components/header/page";
+import Head from "next/head";
 import styles from "./style.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -103,35 +104,58 @@ export default function CheckOut() {
     onClose: () => alert("Wait! you need to make this purchase, don't go!!!"),
   };
 
-  const handlePaymentSubmit = async (data) => {
-    try {
-      const response = await axios.post("/api/billing", {
-        ...data,
-        userId,
+  useEffect(() => {
+    const loadPaystackScript = () => {
+      return new Promise((resolve, reject) => {
+        if (typeof window !== "undefined" && window.PaystackPop) {
+          resolve();
+        } else {
+          const script = document.createElement("script");
+          script.src = "https://js.paystack.co/v1/inline.js";
+          script.async = true;
+          script.onload = () => {
+            if (window.PaystackPop) {
+              resolve();
+            } else {
+              reject(new Error("Paystack script not loaded"));
+            }
+          };
+          script.onerror = reject;
+          document.body.appendChild(script);
+        }
       });
+    };
 
-      if (response.data.success) {
-        const amount = (totalPrice + totalTax) * 100; // Update to actual amount
+    loadPaystackScript()
+      .then(() => {
         const handler = window.PaystackPop.setup({
           ...componentProps,
-          amount,
-          text: `Place order ₦${amount / 100}`,
-          onSuccess: async (paymentResponse) => {
-            try {
-              await axios.post("/api/payment-success", {
-                userId,
-                orderId: response.data.orderId,
-                paymentReference: paymentResponse.reference,
-              });
-              toast.success("Payment successful!");
-              router.push("/products");
-            } catch (error) {
-              toast.error("Error updating payment status.");
-            }
-          },
+          amount: (totalPrice + totalTax) * 100,
         });
+        setPaystackHandler(() => handler);
+      })
+      .catch((error) => console.error(error));
+  }, [totalPrice, totalTax, componentProps]);
 
-        handler.openIframe();
+  const handlePaymentSubmit = async (data) => {
+    try {
+      const response = await axios.post("/api/billing", { ...data, userId });
+
+      if (response.data.success && paystackHandler) {
+        paystackHandler.onSuccess = async (paymentResponse) => {
+          try {
+            await axios.post("/api/payment-success", {
+              userId,
+              orderId: response.data.orderId,
+              paymentReference: paymentResponse.reference,
+            });
+            toast.success("Payment successful!");
+            router.push("/products");
+          } catch (error) {
+            toast.error("Error updating payment status.");
+          }
+        };
+        paystackHandler.openIframe();
       }
     } catch (error) {
       toast.error("Error submitting billing details. Please try again.");
@@ -143,6 +167,10 @@ export default function CheckOut() {
     //     <Loader />
     //   ) : (
     <>
+      <Head>
+        <script src="https://js.paystack.co/v1/inline.js"></script>
+      </Head>
+
       <Header />
       <section className={styles.checkout}>
         <form action="" onSubmit={handleSubmit(handlePaymentSubmit)}>
