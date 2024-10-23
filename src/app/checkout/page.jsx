@@ -108,26 +108,29 @@ export default function CheckOut() {
   );
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // Early exit if on the server
+
     const loadPaystackScript = () => {
       return new Promise((resolve, reject) => {
-        if (typeof window !== "undefined" && window.PaystackPop) {
-          resolve();
+        if (window.PaystackPop) {
+          resolve(); // Paystack already loaded
         } else {
           const script = document.createElement("script");
           script.src = "https://js.paystack.co/v1/inline.js";
           script.async = true;
           script.onload = () => {
             if (window.PaystackPop) {
-              resolve();
+              resolve(); // Successfully loaded Paystack
             } else {
               reject(new Error("Paystack script not loaded"));
             }
           };
-          script.onerror = reject;
+          script.onerror = reject; // Handle script loading error
           document.body.appendChild(script);
         }
       });
     };
+
     loadPaystackScript()
       .then(() => {
         const handler = window.PaystackPop.setup({
@@ -136,7 +139,7 @@ export default function CheckOut() {
         });
         setPaystackHandler(() => handler);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error("Error loading Paystack script:", error));
   }, [totalPrice, totalTax, componentProps]);
 
   const handlePaymentSubmit = async (data) => {
@@ -163,6 +166,7 @@ export default function CheckOut() {
       toast.error("Error submitting billing details. Please try again.");
     }
   };
+
   return (
     // <>
     //   {loading ? (

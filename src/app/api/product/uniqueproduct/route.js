@@ -3,9 +3,8 @@ import prisma from "../../../../../prisma/client";
 
 export async function GET(req) {
   try {
-    // Using `URL` from `next/headers` to get query parameters
-    const url = new URL(req.url);
-    const productId = url.searchParams.get("productId");
+    // Use req.nextUrl instead of req.url
+    const productId = req.nextUrl.searchParams.get("productId");
     const id = parseInt(productId, 10);
 
     if (isNaN(id)) {
