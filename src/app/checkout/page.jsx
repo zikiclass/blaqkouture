@@ -1,6 +1,10 @@
 "use client";
 import Header from "@/components/header/page";
-
+import dynamic from "next/dynamic";
+const PaystackButton = dynamic(
+  () => import("react-paystack").then((module) => module.PaystackButton),
+  { ssr: false }
+);
 import styles from "./style.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -18,7 +22,6 @@ import TrendingProducts from "@/components/trendingproducts/page";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { PaystackButton } from "react-paystack";
 import { useCart } from "@/context/cartContext";
 import { CldImage } from "next-cloudinary";
 
