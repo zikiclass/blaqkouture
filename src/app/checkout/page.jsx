@@ -130,7 +130,7 @@ export default function CheckOut() {
         });
       };
 
-      // Ensuring this runs only on client side
+      // Load Paystack script
       loadPaystackScript()
         .then(() => {
           const handler = window.PaystackPop.setup({
@@ -259,6 +259,7 @@ export default function CheckOut() {
             <PaystackButton
               className={styles.placeOrder}
               type="submit"
+              onClick={handleSubmit(handlePaymentSubmit)}
               {...componentProps}
             />
           </div>
