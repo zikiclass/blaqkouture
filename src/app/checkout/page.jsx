@@ -1,10 +1,10 @@
 "use client";
 import Header from "@/components/header/page";
-import Head from "next/head";
+
 import styles from "./style.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Loader from "@/components/Loader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { billingSchema } from "@/app/validationSchema";
@@ -95,14 +95,17 @@ export default function CheckOut() {
   };
 
   const publicKey = "pk_test_ff9f110106f1f717068a5ed1bd5667b211e74c6c";
-  const componentProps = {
-    email: session?.user?.email,
-    amount: (totalPrice + totalTax) * 100,
-    publicKey,
-    text: "Place order ₦ " + (totalPrice + totalTax).toLocaleString() + ".00",
-    onSuccess: () => alert("Thanks for patronizing us"),
-    onClose: () => alert("Wait! you need to make this purchase, don't go!!!"),
-  };
+  const componentProps = useMemo(
+    () => ({
+      email: session?.user?.email,
+      amount: (totalPrice + totalTax) * 100,
+      publicKey,
+      text: "Place order ₦ " + (totalPrice + totalTax).toLocaleString() + ".00",
+      onSuccess: () => alert("Thanks for patronizing us"),
+      onClose: () => alert("Wait! you need to make this purchase, don't go!!!"),
+    }),
+    [session, totalPrice, totalTax]
+  );
 
   useEffect(() => {
     const loadPaystackScript = () => {
@@ -125,7 +128,6 @@ export default function CheckOut() {
         }
       });
     };
-
     loadPaystackScript()
       .then(() => {
         const handler = window.PaystackPop.setup({
@@ -167,10 +169,6 @@ export default function CheckOut() {
     //     <Loader />
     //   ) : (
     <>
-      <Head>
-        <script src="https://js.paystack.co/v1/inline.js"></script>
-      </Head>
-
       <Header />
       <section className={styles.checkout}>
         <form action="" onSubmit={handleSubmit(handlePaymentSubmit)}>
