@@ -123,7 +123,7 @@ export default function Cart() {
             <h5>cart totals</h5>
             <div className={styles.subtotal}>
               <span>subtotal</span>
-              <span>₦{totalPrice.toLocaleString()}</span>
+              <span>₦{totalPrice.toLocaleString()}.00</span>
             </div>
             <div className={styles.shipping}>
               <span style={{ marginBottom: "0.4rem" }}>
@@ -136,13 +136,13 @@ export default function Cart() {
                   }}
                 >
                   <span style={{ textTransform: "Capitalize" }}>Tax:</span>
-                  <b>₦{totalTax.toLocaleString()}</b>
+                  <b>₦{totalTax.toLocaleString()}.00</b>
                 </p>
               </div>
             </div>
             <div className={styles.total}>
               <span>total</span>
-              <span>₦{(totalPrice + totalTax).toLocaleString()}</span>
+              <span>₦{(totalPrice + totalTax).toLocaleString()}.00</span>
             </div>
 
             <button

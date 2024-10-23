@@ -8,7 +8,6 @@ import Loader from "@/components/Loader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { billingSchema } from "@/app/validationSchema";
 import Image from "next/image";
-import img from "../../image/a28f3b1c-00be-4f69-be0f-f916a31d8bf1 2.JPG";
 import paystackImg from "../../image/paystack-wc.png";
 import Link from "next/link";
 import { CheckBox } from "@mui/icons-material";
@@ -106,38 +105,32 @@ export default function CheckOut() {
 
   const handlePaymentSubmit = async (data) => {
     try {
-      // Step 1: Send the billing and order data to your backend
       const response = await axios.post("/api/billing", {
         ...data,
         userId,
       });
 
-      // Assuming the backend returns a success response with an order ID or payment reference
       if (response.data.success) {
-        // After successful submission to the backend, trigger Paystack
-        const amount = 500 * 100; // Amount in kobo (₦500)
-        const paymentComponentProps = {
+        const amount = (totalPrice + totalTax) * 100; // Update to actual amount
+        const handler = window.PaystackPop.setup({
           ...componentProps,
-          amount: amount,
+          amount,
           text: `Place order ₦${amount / 100}`,
           onSuccess: async (paymentResponse) => {
-            // Step 2: After successful payment, update payment status in the backend
             try {
               await axios.post("/api/payment-success", {
                 userId,
-                orderId: response.data.orderId, // Assuming the backend returns an orderId
+                orderId: response.data.orderId,
                 paymentReference: paymentResponse.reference,
               });
               toast.success("Payment successful!");
-              router.push("/products"); // Redirect user after payment
+              router.push("/products");
             } catch (error) {
               toast.error("Error updating payment status.");
             }
           },
-        };
+        });
 
-        // Trigger Paystack payment window
-        const handler = window.PaystackPop.setup(paymentComponentProps);
         handler.openIframe();
       }
     } catch (error) {
