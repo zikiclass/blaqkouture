@@ -108,28 +108,28 @@ export default function CheckOut() {
   );
 
   useEffect(() => {
-    const loadPaystackScript = () => {
-      return new Promise((resolve, reject) => {
-        if (window.PaystackPop) {
-          resolve();
-        } else {
-          const script = document.createElement("script");
-          script.src = "https://js.paystack.co/v1/inline.js";
-          script.async = true;
-          script.onload = () => {
-            if (window.PaystackPop) {
-              resolve();
-            } else {
-              reject(new Error("Paystack script not loaded"));
-            }
-          };
-          script.onerror = reject;
-          document.body.appendChild(script);
-        }
-      });
-    };
-
     if (typeof window !== "undefined") {
+      const loadPaystackScript = () => {
+        return new Promise((resolve, reject) => {
+          if (window.PaystackPop) {
+            resolve();
+          } else {
+            const script = document.createElement("script");
+            script.src = "https://js.paystack.co/v1/inline.js";
+            script.async = true;
+            script.onload = () => {
+              if (window.PaystackPop) {
+                resolve();
+              } else {
+                reject(new Error("Paystack script not loaded"));
+              }
+            };
+            script.onerror = reject;
+            document.body.appendChild(script);
+          }
+        });
+      };
+
       // Ensuring this runs only on client side
       loadPaystackScript()
         .then(() => {
