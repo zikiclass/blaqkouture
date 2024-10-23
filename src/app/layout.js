@@ -6,18 +6,12 @@ import "./globals.css";
 import { useEffect } from "react";
 import { Roboto } from "next/font/google";
 import { CartProvider } from "@/context/cartContext";
+import { metadata } from "./layout.server";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
   subsets: ["latin"],
 });
-
-// Server-side metadata configuration
-// export const metadata = {
-//   title: "Blaq Kouture",
-//   description: "Blaqkouture",
-// };
-//
 
 export default function RootLayout({ children }) {
   useEffect(() => {
@@ -38,6 +32,10 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </head>
       <body className={roboto.className}>
         <AuthProvider>
           <GlobalState>

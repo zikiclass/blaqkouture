@@ -18,6 +18,9 @@ import TrendingProducts from "@/components/trendingproducts/page";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { PaystackButton } from "react-paystack";
+import { useCart } from "@/context/cartContext";
+import { CldImage } from "next-cloudinary";
 
 export default function CheckOut() {
   const router = useRouter();
@@ -26,7 +29,25 @@ export default function CheckOut() {
   if (status === "unauthenticated") {
     router.push("/");
   }
+  const { cart } = useCart();
 
+  const getCloudinaryUrl = (publicId) => {
+    const cloudinaryBaseUrl =
+      "https://res.cloudinary.com/dd0yi5utp/image/upload/v1729430075/";
+    return `${cloudinaryBaseUrl}${publicId}`;
+  };
+  const NumberWithCommas = ({ numberString }) => {
+    const number = Number(numberString);
+    const formattedNumber = number.toLocaleString();
+    return <span>₦ {formattedNumber}.00</span>;
+  };
+  const totalPrice = cart.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
+  const totalTax = cart.reduce((acc, item) => {
+    const itemTax = item.price * item.quantity * 0.01;
+    return acc + itemTax;
+  }, 0);
   const {
     register,
     handleSubmit,
@@ -67,12 +88,62 @@ export default function CheckOut() {
     }
   }, [billing, setValue]);
 
-  const [selectedValue, setSelectedValue] = useState("DE"); // Default selected value
+  const [selectedValue, setSelectedValue] = useState("DE");
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
+  const publicKey = "pk_test_ff9f110106f1f717068a5ed1bd5667b211e74c6c";
+  const componentProps = {
+    email: session?.user?.email,
+    amount: (totalPrice + totalTax) * 100,
+    publicKey,
+    text: "Place order ₦ " + (totalPrice + totalTax).toLocaleString() + ".00",
+    onSuccess: () => alert("Thanks for patronizing us"),
+    onClose: () => alert("Wait! you need to make this purchase, don't go!!!"),
+  };
+
+  const handlePaymentSubmit = async (data) => {
+    try {
+      // Step 1: Send the billing and order data to your backend
+      const response = await axios.post("/api/billing", {
+        ...data,
+        userId,
+      });
+
+      // Assuming the backend returns a success response with an order ID or payment reference
+      if (response.data.success) {
+        // After successful submission to the backend, trigger Paystack
+        const amount = 500 * 100; // Amount in kobo (₦500)
+        const paymentComponentProps = {
+          ...componentProps,
+          amount: amount,
+          text: `Place order ₦${amount / 100}`,
+          onSuccess: async (paymentResponse) => {
+            // Step 2: After successful payment, update payment status in the backend
+            try {
+              await axios.post("/api/payment-success", {
+                userId,
+                orderId: response.data.orderId, // Assuming the backend returns an orderId
+                paymentReference: paymentResponse.reference,
+              });
+              toast.success("Payment successful!");
+              router.push("/products"); // Redirect user after payment
+            } catch (error) {
+              toast.error("Error updating payment status.");
+            }
+          },
+        };
+
+        // Trigger Paystack payment window
+        const handler = window.PaystackPop.setup(paymentComponentProps);
+        handler.openIframe();
+      }
+    } catch (error) {
+      toast.error("Error submitting billing details. Please try again.");
+    }
+  };
   return (
     // <>
     //   {loading ? (
@@ -81,21 +152,7 @@ export default function CheckOut() {
     <>
       <Header />
       <section className={styles.checkout}>
-        <form
-          action=""
-          onSubmit={handleSubmit(async (data) => {
-            try {
-              await axios.post("/api/billing", {
-                ...data,
-                userId,
-              });
-
-              router.push("products");
-            } catch (error) {
-              toast.error(error.message);
-            }
-          })}
-        >
+        <form action="" onSubmit={handleSubmit(handlePaymentSubmit)}>
           <Toaster position="bottom-left" />
           <div className={styles.payment}>
             <h3>your order</h3>
@@ -103,27 +160,44 @@ export default function CheckOut() {
               <span>product</span>
               <span>subtotal</span>
             </div>
-            <div className={styles.sub_product}>
-              <Image src={img} alt="img" className={styles.img} />
-              <span className={styles.title}>
-                HF PANEL CAP GREY - Grey, One Size Fits All
-              </span>
-              <span>&times; 2</span>
-              <span>₦ 330,000.00</span>
-            </div>
+            {cart.map((item, index) => (
+              <div className={styles.sub_product} key={index}>
+                <CldImage
+                  height={50}
+                  width={100}
+                  src={getCloudinaryUrl(item.img)}
+                  className={styles.img}
+                  alt="img"
+                />
+
+                <span className={styles.title}>{item.title}</span>
+                <span>&times; {item.quantity}</span>
+                <span>
+                  <NumberWithCommas
+                    numberString={
+                      parseFloat(item.price) * parseInt(item.quantity)
+                    }
+                  />
+                </span>
+              </div>
+            ))}
             <div className={styles.subtotal}>
               <div>
                 <span>subtotal</span>
-                <span>₦ 330,000.00</span>
+                <span>
+                  <b>₦ {totalPrice.toLocaleString()}.00</b>
+                </span>
               </div>
               <div>
                 <span>tax</span>
-                <span>tax: ₦ 29,700.00</span>
+                <span>tax: ₦ {totalTax.toLocaleString()}.00</span>
               </div>
             </div>
             <div className={styles.total}>
               <span>total</span>
-              <span>₦ 359,700.00</span>
+              <span>
+                <b>₦ {(totalPrice + totalTax).toLocaleString()}.00</b>
+              </span>
             </div>
             {/* <div className={styles.coupon}>
             <form>
@@ -156,9 +230,11 @@ export default function CheckOut() {
                 <span className={styles.import}>*</span>
               </span>
             </div>
-            <button className={styles.placeOrder} type="submit">
-              place order ₦ 359,700.00
-            </button>
+            <PaystackButton
+              className={styles.placeOrder}
+              type="submit"
+              {...componentProps}
+            />
           </div>
 
           <div className={styles.billing}>

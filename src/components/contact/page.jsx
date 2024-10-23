@@ -24,7 +24,9 @@ export default function Contact() {
             <FaPhoneAlt />
             09063152812
           </p>
-          <p style={{ display: "flex", gap: "5px" }}>
+          <p
+            style={{ display: "flex", gap: "5px", textTransform: "lowercase" }}
+          >
             <MdOutlineEmail />
             info@blaqkouture.com
           </p>
