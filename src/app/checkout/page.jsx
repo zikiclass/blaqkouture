@@ -108,38 +108,41 @@ export default function CheckOut() {
   );
 
   useEffect(() => {
-    if (typeof window === "undefined") return; // Early exit if on the server
-
     const loadPaystackScript = () => {
       return new Promise((resolve, reject) => {
         if (window.PaystackPop) {
-          resolve(); // Paystack already loaded
+          resolve();
         } else {
           const script = document.createElement("script");
           script.src = "https://js.paystack.co/v1/inline.js";
           script.async = true;
           script.onload = () => {
             if (window.PaystackPop) {
-              resolve(); // Successfully loaded Paystack
+              resolve();
             } else {
               reject(new Error("Paystack script not loaded"));
             }
           };
-          script.onerror = reject; // Handle script loading error
+          script.onerror = reject;
           document.body.appendChild(script);
         }
       });
     };
 
-    loadPaystackScript()
-      .then(() => {
-        const handler = window.PaystackPop.setup({
-          ...componentProps,
-          amount: (totalPrice + totalTax) * 100,
-        });
-        setPaystackHandler(() => handler);
-      })
-      .catch((error) => console.error("Error loading Paystack script:", error));
+    if (typeof window !== "undefined") {
+      // Ensuring this runs only on client side
+      loadPaystackScript()
+        .then(() => {
+          const handler = window.PaystackPop.setup({
+            ...componentProps,
+            amount: (totalPrice + totalTax) * 100,
+          });
+          setPaystackHandler(() => handler);
+        })
+        .catch((error) =>
+          console.error("Error loading Paystack script:", error)
+        );
+    }
   }, [totalPrice, totalTax, componentProps]);
 
   const handlePaymentSubmit = async (data) => {
