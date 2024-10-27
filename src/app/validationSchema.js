@@ -37,3 +37,23 @@ export const billingSchema = z.object({
   townCity: z.string().min(1, "Town / City is required"),
   phoneNumber: z.string().min(11, "Valid phone number is required"),
 });
+
+export const messageSchema = z.object({
+  message: z.string().min(1, "message content is required"),
+  subject: z.string().min(1, "subject is required"),
+  email: z.string().min(1, "email is required"),
+  name: z.string().min(1, "Name is required"),
+});
+
+export const feedbackSchema = z.object({
+  content: z.string().min(1, "Content is required"),
+  name: z.string().min(1, "Name is required"),
+  position: z.string().min(1, "Position / Status / Job Role is required"),
+});
+export const newsSchema = z.object({
+  content1: z.string().min(1, "Content (1) is required"),
+  content2: z.string().min(1, "Content (2) is required"),
+  content3: z.string().min(1, "Content (3) is required"),
+  headline: z.string().min(1, "Headline is required"),
+  date: z.string().min(1, "Date is required"),
+});

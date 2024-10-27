@@ -15,11 +15,55 @@ import { IoLogOutOutline } from "react-icons/io5";
 import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
-
+import axios from "axios";
 import logo from "@/image/logo_black.png";
 import { GlobalContext } from "@/context";
 export default function Sidebar({ menu, closeMenu }) {
   const [isMobile, setIsMobile] = useState(false);
+  const [message, setMessage] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [news, setNews] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  const getMessages = async () => {
+    try {
+      const response = await axios.get(`/api/message`);
+      if (response.data) setMessage(response.data);
+    } catch (e) {}
+  };
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(`/api/product`);
+      if (response.data) setProducts(response.data);
+    } catch (e) {}
+  };
+  const getNews = async () => {
+    try {
+      const response = await axios.get(`/api/news`);
+      if (response.data) setNews(response.data);
+    } catch (e) {}
+  };
+  const getFeedbacks = async () => {
+    try {
+      const response = await axios.get(`/api/feedback`);
+      if (response.data) setFeedbacks(response.data);
+    } catch (e) {}
+  };
+  const getUsers = async () => {
+    try {
+      const response = await axios.get(`/api/register`);
+      if (response.data) setUsers(response.data);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getMessages();
+    getProducts();
+    getNews();
+    getFeedbacks();
+    getUsers();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,114 +100,85 @@ export default function Sidebar({ menu, closeMenu }) {
       </div>
 
       <div className={styles.sidebar}>
-        <Link
-          href="dashboard"
-          className={`${styles.link} ${
-            activeLink === "dashboard" && styles.active
-          }`}
-          onClick={() => setActiveLink("dashboard")}
-        >
+        <Link href="dashboard" className={styles.link}>
           <span>
             <IoGrid />
           </span>
           <h1>Dashboard</h1>
         </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("customers")}
-          className={`${styles.link} ${
-            activeLink === "customers" && styles.active
-          }`}
-        >
+        <Link href="customers" className={styles.link}>
           <span>
             <IoPersonOutline />
           </span>
           <h1>Customers</h1>
+          <span
+            className={styles.message_count}
+            style={{ backgroundColor: "var(--color-success)" }}
+          >
+            {users.length}
+          </span>
         </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("orders")}
-          className={`${styles.link} ${
-            activeLink === "orders" && styles.active
-          }`}
-        >
+        <Link href="#" className={styles.link}>
           <span>
             <IoReceiptOutline />
           </span>
           <h1>Orders</h1>
         </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("analytics")}
-          className={`${styles.link} ${
-            activeLink === "analytics" && styles.active
-          }`}
-        >
-          <span>
-            <MdInsights />
-          </span>
-          <h1>Analytics</h1>
-        </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("messages")}
-          className={`${styles.link} ${
-            activeLink === "messages" && styles.active
-          }`}
-        >
+
+        <Link href="messages" className={styles.link}>
           <span>
             <IoMailOutline />
           </span>
           <h1>Messages</h1>
-          <span className={styles.message_count}>20</span>
+          <span className={styles.message_count}>{message.length}</span>
         </Link>
-        <Link
-          href="products"
-          onClick={() => setActiveLink("products")}
-          className={`${styles.link} ${
-            activeLink === "products" && styles.active
-          }`}
-        >
+        <Link href="products" className={styles.link}>
           <span>
             <MdOutlineInventory />
           </span>
           <h1>Products</h1>
+          <span
+            className={styles.message_count}
+            style={{ backgroundColor: "var(--color-primary)" }}
+          >
+            {products.length}
+          </span>
         </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("reports")}
-          className={`${styles.link} ${
-            activeLink === "reports" && styles.active
-          }`}
-        >
+        <Link href="#" className={styles.link}>
           <span>
             <MdReportGmailerrorred />
           </span>
           <h1>Reports</h1>
         </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("settings")}
-          className={`${styles.link} ${
-            activeLink === "settings" && styles.active
-          }`}
-        >
+        <Link href="#" className={styles.link}>
           <span>
             <IoMdSettings />
           </span>
           <h1>Settings</h1>
         </Link>
-        <Link
-          href="#"
-          onClick={() => setActiveLink("feedback")}
-          className={`${styles.link} ${
-            activeLink === "feedback" && styles.active
-          }`}
-        >
+        <Link href="news" className={styles.link}>
+          <span>
+            <MdInsights />
+          </span>
+          <h1>New Updates</h1>
+          <span
+            className={styles.message_count}
+            style={{ backgroundColor: "var(--color-success)" }}
+          >
+            {news.length}
+          </span>
+        </Link>
+        <Link href="feedback" className={styles.link}>
           <span>
             <IoMdAdd />
           </span>
-          <h1>Add Feedback</h1>
+          <h1>Feedback</h1>
+          <span
+            className={styles.message_count}
+            style={{ backgroundColor: "var(--color-primary-variant)" }}
+          >
+            {feedbacks.length}
+          </span>
         </Link>
         <button onClick={handleSignOut} className={styles.link}>
           <IoLogOutOutline /> <h1>Logout</h1>

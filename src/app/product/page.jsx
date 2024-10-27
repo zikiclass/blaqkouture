@@ -158,7 +158,11 @@ export default function ProductView() {
                   <div className={styles.prod}>
                     <h4>{uniqueProduct.title}</h4>
                     <span className={styles.prod_price}>
-                      <NumberWithCommas numberString={uniqueProduct.price} />{" "}
+                      {uniqueProduct.price ? (
+                        <NumberWithCommas numberString={uniqueProduct.price} />
+                      ) : (
+                        "₦ ..."
+                      )}{" "}
                       <span className={styles.prod_overprice}>
                         {uniqueProduct.overprice && (
                           <NumberWithCommas

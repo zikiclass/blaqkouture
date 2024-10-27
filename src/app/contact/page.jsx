@@ -9,6 +9,7 @@ import Header from "@/components/header/page";
 
 export default function ContactUs() {
   const [loading, setLoading] = useState(true);
+
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     setLoading(false);

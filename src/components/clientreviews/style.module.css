@@ -1,5 +1,11 @@
 .clientreviews{
     background-color: #F3F4F6;
+   
+}
+.clientreviews .rev{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
 }
 .reviews{
     text-align: center;
@@ -7,13 +13,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1;
 }
-.reviews h3{
+.clientreviews h3{
     color: #111;
     font-size: 25px;
     text-transform: capitalize;
     text-align: center;
     font-weight: 700;
+    margin-bottom: 1.4rem;
 }
 .img{
     width: 100px;
@@ -29,6 +37,12 @@
     font-weight: 400;
     line-height: 25px;
     margin-bottom: 10px;
+}
+.reviews p:last-child{
+    font-style: italic;
+    margin-top: -10px;
+    font-size: 13px;
+    color: var(--color-success);
 }
 .reviews h2{
     font-size: 22px;

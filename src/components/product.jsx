@@ -72,9 +72,9 @@ export default function Product({ sale, img, amt, prevAmt, title, productId }) {
 
       <div className={styles.producttext}>
         {sale === "0" && <h5>Out of Stock</h5>}
-        {sale !== "0" && !isProductInCart && (
+        {/* {sale !== "0" && !isProductInCart && (
           <BsCart3 className={styles.cart} />
-        )}
+        )} */}
       </div>
 
       {sale !== "0" &&

@@ -81,7 +81,11 @@ export default function Contact() {
           <p>About</p>
           <p>Blog</p>
           <p>Affiliate</p>
-          <p>Login</p>
+          <p>
+            <Link prefetch={true} href="/signin">
+              Login
+            </Link>
+          </p>
         </div>
         {/* <div className={styles.five}>
           <h4>Subscribe</h4>

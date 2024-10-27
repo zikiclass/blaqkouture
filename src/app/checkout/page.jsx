@@ -105,7 +105,8 @@ export default function CheckOut() {
       publicKey,
       text: "Place order ₦ " + (totalPrice + totalTax).toLocaleString() + ".00",
       onSuccess: () => alert("Thanks for patronizing us"),
-      onClose: () => alert("Wait! you need to make this purchase, don't go!!!"),
+      onClose: () =>
+        alert("Are you sure you want to cancel the payment process?"),
     }),
     [session, totalPrice, totalTax]
   );

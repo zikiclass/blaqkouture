@@ -342,6 +342,7 @@
 .table table tr{
     cursor: pointer;
     transition: all ease 300ms;
+    padding-bottom: 1rem!important;
 }
 .table table tr:hover{
     background-color: #f8f8f8;
@@ -541,6 +542,15 @@
    
 }
 
+.table td{
+    text-align: left;
+    padding-right: 13px!important;
+}
+.table thead{
+    text-transform: uppercase;
+    padding-bottom: 1rem!important;
+    text-align: left;
+}
 /* ======== MEDIA QUERIES ========== */
 @media screen and (max-width: 1200px){
     .container{
@@ -578,7 +588,7 @@
     .table {
         width: 83vw;
     }
-    .table table thead tr th:first-child{
+    .table table thead tr th:first-child, .dates{
         display: none;
     }
     

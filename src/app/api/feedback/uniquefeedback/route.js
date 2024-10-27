@@ -6,8 +6,8 @@ export async function GET(req) {
     // Use req.nextUrl instead of req.url
 
     const url = new URL(req.url);
-    const productId = url.searchParams.get("productId");
-    const id = parseInt(productId, 10);
+    const feedbackId = url.searchParams.get("id");
+    const id = parseInt(feedbackId, 10);
 
     if (isNaN(id)) {
       return NextResponse.json(
@@ -16,20 +16,20 @@ export async function GET(req) {
       );
     }
 
-    const product = await prisma.product.findUnique({
-      where: { productId: id },
+    const feedback = await prisma.feedback.findUnique({
+      where: { id },
     });
 
-    if (product) {
-      return NextResponse.json(product, { status: 200 });
+    if (feedback) {
+      return NextResponse.json(feedback, { status: 200 });
     } else {
       return NextResponse.json(
-        { message: "Product not found" },
+        { message: "Feedback not found" },
         { status: 404 }
       );
     }
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error fetching Feedback:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

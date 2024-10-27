@@ -68,3 +68,32 @@ model Billing {
     user          User     @relation(fields: [userId], references: [id])
     createdAt     DateTime @default(now())
 }
+
+model Message {
+    id      Int      @id @default(autoincrement())
+    message String?
+    name    String?
+    email   String?
+    subject String?
+    date    DateTime @default(now())
+}
+
+model Feedback {
+    id       Int      @id @default(autoincrement())
+    content  String?
+    name     String?
+    position String?
+    image    String?
+    date     DateTime @default(now())
+}
+
+model News {
+    id        Int      @id @default(autoincrement())
+    headline  String?
+    content1  String?  @db.Text
+    content2  String?  @db.Text
+    content3  String?  @db.Text
+    date      String?
+    image     String?
+    dateAdded DateTime @default(now())
+}
