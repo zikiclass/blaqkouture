@@ -107,6 +107,7 @@ export default function ProductView() {
       img: uniqueProduct.img1,
       quantity: counter,
     };
+
     addToCart(productToAdd);
     router.push("/cart");
   };

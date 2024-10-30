@@ -30,7 +30,7 @@
     border-bottom: 1px solid #111!important;
 }
 .table td{
-    text-align: left;
+    text-align: center;
     word-wrap: break-word;
   
 }
@@ -185,6 +185,16 @@
 .imgs{
     display: none;
 }
+.pay{
+    background-color: var(--color-primary);
+    padding: 5px;
+    color: #fff;
+    border-radius: 5px;
+
+    align-items: center;
+    justify-content: center;
+  
+}
 @media (max-width: 800px){
     .cartContainer{
         flex-direction: column;
@@ -201,7 +211,7 @@
     }
     .imgs{
         display: block;
-        width: 80px;
+        width: 50px;
     }
     .cta{
         margin: 2rem 0px;

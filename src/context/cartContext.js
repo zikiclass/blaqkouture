@@ -27,6 +27,7 @@ export function CartProvider({ children }) {
   const addToCart = (product) => {
     const updatedCart = [...cart, product];
     setCart(updatedCart);
+    toast.success("Product added to cart successfully");
   };
 
   const removeFromCart = (productId) => {
@@ -40,8 +41,14 @@ export function CartProvider({ children }) {
     // });
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, clearCart }}
+    >
       <Toaster position="top-right" />
       {children}
     </CartContext.Provider>

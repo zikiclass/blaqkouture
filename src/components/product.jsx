@@ -40,8 +40,8 @@ export default function Product({ sale, img, amt, prevAmt, title, productId }) {
       img,
       quantity: 1,
     };
+
     addToCart(productToAdd);
-    toast.success("Product added to cart successfully");
   };
 
   // Check if the product is already in the cart

@@ -1,21 +1,19 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import styles from "./style.module.css";
+import styles from "../dashboard/style.module.css";
 import Sidebar from "../components/sidebar";
-import { MdAnalytics } from "react-icons/md";
-import { MdOutlineBarChart } from "react-icons/md";
-import { MdStackedLineChart } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import Link from "next/link";
 import RightSide from "../components/rightside";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
+import Swal from "sweetalert2";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
 import { CldImage } from "next-cloudinary";
-import { MdDelete } from "react-icons/md";
-export default function Admin() {
+export default function Orders() {
   const router = useRouter();
 
   const { data: session, status } = useSession();
@@ -23,9 +21,6 @@ export default function Admin() {
   const [showDialog, setShowDialog] = useState(false);
   const [proId, setProId] = useState("");
   const [statusOrder, setStatusOrder] = useState("");
-  const [users, setUsers] = useState([]);
-  const [processingOrders, setProcessingOrders] = useState([]);
-  const [receivedOrders, setReceivedOrders] = useState([]);
   const showMenu = () => {
     setMenu(true);
   };
@@ -38,62 +33,12 @@ export default function Admin() {
 
   const [ordersList, setOrders] = useState([]);
   const getOrders = async () => {
-    const response = await axios.get(`/api/order/get15`);
+    const response = await axios.get(`/api/order/all`);
     if (response.data) setOrders(response.data);
   };
-
-  const getUsers = async () => {
-    try {
-      const response = await axios.get(`/api/register`);
-      if (response.data) setUsers(response.data);
-    } catch (e) {}
-  };
-  const getProcessingOrders = async () => {
-    try {
-      const response = await axios.get(
-        `/api/order/unique_processing?status=PROCESSING`
-      );
-
-      if (response.data) {
-        setProcessingOrders(response.data);
-      }
-    } catch (e) {}
-  };
-  const getReceivedOrders = async () => {
-    try {
-      const response = await axios.get(
-        `/api/order/unique_processing?status=RECEIVED`
-      );
-
-      if (response.data) setReceivedOrders(response.data);
-    } catch (e) {}
-  };
-
   useEffect(() => {
     getOrders();
-    getUsers();
-    getProcessingOrders();
-    getReceivedOrders();
   }, []);
-
-  const processPrice = processingOrders.reduce((acc, item) => {
-    const price = Number(item.product?.price) || 0;
-    const quantity = Number(item.quantity) || 0;
-    const itemTax = price * quantity * 0.01;
-    return acc + price * quantity + itemTax;
-  }, 0);
-  const receivedPrice = receivedOrders.reduce((acc, item) => {
-    const price = Number(item.product?.price) || 0;
-    const quantity = Number(item.quantity) || 0;
-    const itemTax = price * quantity * 0.01;
-    return acc + price * quantity + itemTax;
-  }, 0);
-
-  const NumberWithCommas = (number) => {
-    if (typeof number !== "number") return "₦ 0";
-    const formattedNumber = number.toLocaleString();
-    return `₦ ${formattedNumber}`;
-  };
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -149,7 +94,6 @@ export default function Admin() {
       }
     } catch (e) {}
   };
-
   return (
     <>
       {loading ? (
@@ -159,52 +103,9 @@ export default function Admin() {
           <div className={styles.container}>
             <Sidebar menu={menu} closeMenu={closeMenu} />
             <main className={styles.main}>
-              <h1>Dashboard</h1>
-              <div className={styles.insights}>
-                <div className={styles.sales}>
-                  <span>
-                    <MdAnalytics className={styles.insights_icon} />
-                  </span>
-                  <div className={styles.middle}>
-                    <div className={styles.left}>
-                      <h3>Total Sales</h3>
-                      <h1>{NumberWithCommas(receivedPrice)}</h1>
-                    </div>
-                  </div>
-                  <small className={styles.text_muted}>Total Sales</small>
-                </div>
-
-                <div className={styles.expenses}>
-                  <span>
-                    <MdOutlineBarChart className={styles.insights_icon_exp} />
-                  </span>
-                  <div className={styles.middle}>
-                    <div className={styles.left}>
-                      <h3>Pending Income</h3>
-                      <h1>{NumberWithCommas(processPrice)}</h1>
-                    </div>
-                  </div>
-                  <small className={styles.text_muted}>Pending Income</small>
-                </div>
-
-                <div className={styles.income}>
-                  <span>
-                    <MdStackedLineChart
-                      className={styles.insights_icon_income}
-                    />
-                  </span>
-                  <div className={styles.middle}>
-                    <div className={styles.left}>
-                      <h3>Total Clients</h3>
-                      <h1>{users.length}</h1>
-                    </div>
-                  </div>
-                  <small className={styles.text_muted}>Total Clients</small>
-                </div>
-              </div>
+              <h1 style={{ display: "flex", alignItems: "center" }}>Orders</h1>
 
               <div className={styles.recent_orders}>
-                <h1>Recent Orders</h1>
                 <div className={styles.table}>
                   <table style={{ fontSize: "13px" }}>
                     <thead>
@@ -356,12 +257,8 @@ export default function Admin() {
                     </tbody>
                   </table>
                 </div>
-                <Link
-                  prefetch={true}
-                  href="allorders"
-                  className={styles.showAll}
-                >
-                  Show All
+                <Link prefetch={true} href="orders" className={styles.showAll}>
+                  Show Less
                 </Link>
               </div>
             </main>

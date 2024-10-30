@@ -118,7 +118,7 @@ export default function Sidebar({ menu, closeMenu }) {
             {users.length}
           </span>
         </Link>
-        <Link href="#" className={styles.link}>
+        <Link href="orders" className={styles.link}>
           <span>
             <IoReceiptOutline />
           </span>
@@ -144,18 +144,13 @@ export default function Sidebar({ menu, closeMenu }) {
             {products.length}
           </span>
         </Link>
-        <Link href="#" className={styles.link}>
+        {/* <Link href="#" className={styles.link}>
           <span>
             <MdReportGmailerrorred />
           </span>
           <h1>Reports</h1>
-        </Link>
-        <Link href="#" className={styles.link}>
-          <span>
-            <IoMdSettings />
-          </span>
-          <h1>Settings</h1>
-        </Link>
+        </Link> */}
+
         <Link href="news" className={styles.link}>
           <span>
             <MdInsights />
@@ -179,6 +174,12 @@ export default function Sidebar({ menu, closeMenu }) {
           >
             {feedbacks.length}
           </span>
+        </Link>
+        <Link href="settings" className={styles.link}>
+          <span>
+            <IoMdSettings />
+          </span>
+          <h1>Settings</h1>
         </Link>
         <button onClick={handleSignOut} className={styles.link}>
           <IoLogOutOutline /> <h1>Logout</h1>

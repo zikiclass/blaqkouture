@@ -11,6 +11,7 @@ export async function POST(request) {
       console.error("User is not authenticated or user ID is missing");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
     // check if the billing exist
     const billing = await prisma.billing.findMany({
       where: {
@@ -18,7 +19,7 @@ export async function POST(request) {
       },
     });
     let addBilling;
-    if (billing) {
+    if (billing.length > 0) {
       addBilling = await prisma.billing.updateMany({
         where: {
           userId: parseInt(session?.user?.id),

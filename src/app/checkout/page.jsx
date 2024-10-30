@@ -8,7 +8,7 @@ const PaystackButton = dynamic(
 import styles from "./style.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import Loader from "@/components/Loader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { billingSchema } from "@/app/validationSchema";
@@ -24,16 +24,34 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useCart } from "@/context/cartContext";
 import { CldImage } from "next-cloudinary";
-
+import { signOut } from "next-auth/react";
+import { GlobalContext } from "@/context";
 export default function CheckOut() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { cart, clearCart } = useCart();
   const userId = session?.user?.id;
-  if (status === "unauthenticated") {
-    router.push("/");
-  }
-  const { cart } = useCart();
+  useEffect(() => {
+    if (status === "loading") return;
+    if (status === "unauthenticated") {
+      router.push("/");
+    } else if (session?.user?.isAdmin === "admin") {
+      const handleSignOut = async () => {
+        try {
+          await signOut({ callbackUrl: "/signin" });
+        } catch (error) {
+          console.error("Error during NextAuth sign out", error);
+        }
+      };
+      handleSignOut();
+    }
 
+    if (cart.length <= 0) {
+      router.push("/orders");
+    }
+  }, [status, session, router]);
+
+  const { setTotalPriceCart, setUpdateQuery } = useContext(GlobalContext);
   const getCloudinaryUrl = (publicId) => {
     const cloudinaryBaseUrl =
       "https://res.cloudinary.com/dd0yi5utp/image/upload/v1729430075/";
@@ -149,31 +167,73 @@ export default function CheckOut() {
     }
   }, [totalPrice, totalTax, componentProps]);
 
-  const handlePaymentSubmit = async (data) => {
+  // const handlePaymentSubmit = async (data) => {
+  //   try {
+  //     const response = await axios.post("/api/billing", { ...data, userId });
+
+  //     if (response.data.success && paystackHandler) {
+  //       paystackHandler.onSuccess = async (paymentResponse) => {
+  //         try {
+  //           await axios.post("/api/payment-success", {
+  //             userId,
+  //             orderId: response.data.orderId,
+  //             paymentReference: paymentResponse.reference,
+  //           });
+  //           toast.success("Payment successful!");
+  //           router.push("/products");
+  //         } catch (error) {
+  //           toast.error("Error updating payment status.");
+  //         }
+  //       };
+  //       paystackHandler.openIframe();
+  //     }
+  //   } catch (error) {
+  //     toast.error("Error submitting billing details. Please try again.");
+  //   }
+  // };
+
+  const generateRandomWord = () => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+    return result;
+  };
+
+  const handlePaymentSubmitOffline = async (data) => {
     try {
       const response = await axios.post("/api/billing", { ...data, userId });
 
-      if (response.data.success && paystackHandler) {
-        paystackHandler.onSuccess = async (paymentResponse) => {
-          try {
-            await axios.post("/api/payment-success", {
-              userId,
-              orderId: response.data.orderId,
-              paymentReference: paymentResponse.reference,
-            });
-            toast.success("Payment successful!");
-            router.push("/products");
-          } catch (error) {
-            toast.error("Error updating payment status.");
-          }
-        };
-        paystackHandler.openIframe();
+      if (!response.data) {
+        throw new Error("Error creating billing details");
       }
+      const newUpdateQuery = generateRandomWord();
+      setUpdateQuery(newUpdateQuery);
+      const orderPromises = cart.map(async (item) => {
+        const orderData = {
+          productId: item.productId,
+          quantity: item.quantity,
+          userId: userId,
+          update_query: newUpdateQuery,
+        };
+
+        const orderResponse = await axios.post("/api/order", orderData);
+        if (!orderResponse.data) {
+          throw new Error("Error creating order");
+        }
+        return orderResponse.data;
+      });
+
+      await Promise.all(orderPromises);
+      setTotalPriceCart("₦" + (totalPrice + totalTax).toLocaleString() + ".00");
+      clearCart();
+      router.push("/payment");
     } catch (error) {
       toast.error("Error submitting billing details. Please try again.");
     }
   };
-
   return (
     // <>
     //   {loading ? (
@@ -182,7 +242,7 @@ export default function CheckOut() {
     <>
       <Header />
       <section className={styles.checkout}>
-        <form action="" onSubmit={handleSubmit(handlePaymentSubmit)}>
+        <form action="" onSubmit={handleSubmit(handlePaymentSubmitOffline)}>
           <Toaster position="bottom-left" />
           <div className={styles.payment}>
             <h3>your order</h3>
@@ -235,7 +295,7 @@ export default function CheckOut() {
               <button>apply</button>
             </form>
           </div> */}
-            <div className={styles.paystack}>
+            {/* <div className={styles.paystack}>
               <div>
                 <span>debit/credit card</span>
                 <Image
@@ -245,7 +305,7 @@ export default function CheckOut() {
                 />
               </div>
               <div>make payment using your debit and credit cards</div>
-            </div>
+            </div> */}
             <div className={styles.terms}>
               <CheckBox name="terms" />{" "}
               <span>
@@ -260,12 +320,19 @@ export default function CheckOut() {
                 <span className={styles.import}>*</span>
               </span>
             </div>
-            <PaystackButton
+            <button
               className={styles.placeOrder}
               type="submit"
-              onClick={handleSubmit(handlePaymentSubmit)}
+              onClick={handleSubmit(handlePaymentSubmitOffline)}
+            >
+              Place order ₦ {(totalPrice + totalTax).toLocaleString()} .00
+            </button>
+            {/* <PaystackButton
+              className={styles.placeOrder}
+              type="submit"
+              onClick={handleSubmit(handlePaymentSubmitOffline)}
               {...componentProps}
-            />
+            /> */}
           </div>
 
           <div className={styles.billing}>

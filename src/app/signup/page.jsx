@@ -62,7 +62,7 @@ export default function Signup() {
                 toast.success("Account successfully registered");
                 router.push("/signin");
               } catch (error) {
-                toast.error(error.message || "Something went wrong");
+                toast.error("Email already registered.");
               }
             })}
           >

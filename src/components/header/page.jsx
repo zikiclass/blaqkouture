@@ -18,6 +18,7 @@ export default function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const { data: session, status } = useSession();
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -116,6 +117,17 @@ export default function Header() {
               contact us
             </Link>
           </li>
+          {status === "authenticated" && (
+            <li>
+              <Link
+                href="orders"
+                className={styles.navlinks}
+                onClick={handleRemove}
+              >
+                Orders
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className={styles.navicon}>

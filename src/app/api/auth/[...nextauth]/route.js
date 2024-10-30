@@ -17,7 +17,6 @@ export const authOptions = {
 
         // Check if the login is for an admin or a regular user
         if (credentials?.isAdmin === "true") {
-          // Ensure isAdmin is a string if coming from a form
           user = await prisma.admin.findUnique({
             where: { email: credentials.email },
           });
@@ -38,7 +37,13 @@ export const authOptions = {
 
         // Return the user object if the password matches, otherwise null
         if (passwordsMatch) {
-          return { id: user.id, name: user.name, email: user.email };
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            isAdmin: user.isAdmin,
+          };
         } else {
           return null;
         }
@@ -54,12 +59,16 @@ export const authOptions = {
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
+        session.user.phone = token.phone;
+        session.user.isAdmin = token.isAdmin;
       }
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.phone = user.phone;
+        token.isAdmin = user.isAdmin;
       }
       return token;
     },

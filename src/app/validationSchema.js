@@ -57,3 +57,8 @@ export const newsSchema = z.object({
   headline: z.string().min(1, "Headline is required"),
   date: z.string().min(1, "Date is required"),
 });
+export const bankSchema = z.object({
+  bank: z.string().min(1, "Bank is required"),
+  accountNumber: z.string().min(1, "Account number is required"),
+  accountName: z.string().min(1, "Account name is required"),
+});
