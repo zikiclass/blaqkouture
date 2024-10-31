@@ -12,6 +12,7 @@ import { MdLocalMall } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 export default function RightSide({ showMenu }) {
   const router = useRouter();
   const [users, setUsers] = useState([]);
@@ -32,6 +33,14 @@ export default function RightSide({ showMenu }) {
     getUsers();
     getOfflineOrders();
   }, []);
+  const handleSignOut = async () => {
+    try {
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error during NextAuth sign out", error);
+    }
+  };
+
   return (
     <div className={styles.right}>
       <div className={styles.top}>
@@ -55,7 +64,7 @@ export default function RightSide({ showMenu }) {
             </p>
             <small className={styles.text_muted}>Admin</small>
           </div>
-          <div className={styles.profile_photo}>
+          <div onClick={handleSignOut} className={styles.profile_photo}>
             <Image src={img1} alt="profile" className={styles.profimg} />
           </div>
         </div>
