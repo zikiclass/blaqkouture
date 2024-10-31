@@ -19,7 +19,7 @@ export async function GET(req) {
       );
     }
   } catch (error) {
-    console.error("Error fetching NFT:", error);
+    console.error("Error fetching Product:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

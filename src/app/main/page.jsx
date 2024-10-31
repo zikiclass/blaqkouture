@@ -9,6 +9,7 @@ import News from "@/components/news/page";
 import TrendingProducts from "@/components/trendingproducts/page";
 import Loader from "@/components/Loader";
 import Header from "@/components/header/page";
+import UniqueProduct from "@/components/uniqueproducts/page";
 
 export default function Main() {
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,7 @@ export default function Main() {
           <Header />
           <MainContent />
           <TrendingProducts />
-          <ClientReviews />
+          <UniqueProduct title="All" />
           <FindBestCollection />
           <News />
           <Contact />
