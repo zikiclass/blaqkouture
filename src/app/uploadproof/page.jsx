@@ -1,29 +1,24 @@
 "use client";
 import Header from "@/components/header/page";
-
 import styles from "../payment/style.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useMemo, useContext } from "react";
-import { CldUploadWidget, CldImage } from "next-cloudinary";
+import { useState, useContext } from "react";
+import axios from "axios";
 
-import Link from "next/link";
-import { CheckBox } from "@mui/icons-material";
 import Contact from "@/components/contact/page";
 import Footer from "@/components/footer/page";
 import TrendingProducts from "@/components/trendingproducts/page";
-
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
-
-import Image from "next/image";
 import { GlobalContext } from "@/context";
 
 export default function UploadProof() {
   const [img1, setImg1] = useState("");
+  const [file, setFile] = useState(null);
   const router = useRouter();
   const { data: session, status } = useSession();
   const userId = session?.user?.id;
+
   if (status === "unauthenticated") {
     router.push("/");
   }
@@ -31,39 +26,60 @@ export default function UploadProof() {
   const { setUniqueUpdate, uniqueUpdate, updateQuery, useId } =
     useContext(GlobalContext);
 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg1(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile(selectedFile); // Save the selected file for upload
+    }
+  };
+
   const handleUpload = async () => {
+    if (!file) {
+      toast.error("Please select an image to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "czg2ltv9"); // Your Cloudinary upload preset
+
     try {
+      const uploadResponse = await axios.post(
+        "https://api.cloudinary.com/v1_1/dd0yi5utp/image/upload",
+        formData
+      );
+
+      const imagePublicId = uploadResponse.data.public_id;
+
+      // Now you can proceed with your existing logic to save the image ID
       if (!uniqueUpdate) {
         const response = await axios.put(
-          `/api/order?update_query=${updateQuery}&image=${img1}`
+          `/api/order?update_query=${updateQuery}&image=${imagePublicId}`
         );
         if (response.data) {
           router.push("/pending_order");
         }
       } else {
         const response = await axios.put(
-          `/api/order/unique?id=${useId}&image=${img1}`
+          `/api/order/unique?id=${useId}&image=${imagePublicId}`
         );
         if (response.data) {
           setUniqueUpdate(false);
           router.push("/pending_order");
         }
       }
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error("Failed to upload image.");
+    }
   };
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  //   return () => clearTimeout(timer);
-  // }, []);
 
   return (
-    // <>
-    //   {loading ? (
-    //     <Loader />
-    //   ) : (
     <>
       <Header />
       <section className={styles.checkout}>
@@ -81,7 +97,7 @@ export default function UploadProof() {
                 </p>
                 <p>
                   {img1 && (
-                    <CldImage
+                    <img
                       src={img1}
                       width={150}
                       height={150}
@@ -89,60 +105,17 @@ export default function UploadProof() {
                       style={{ marginBottom: "1rem" }}
                     />
                   )}
-
-                  <CldUploadWidget
-                    uploadPreset="czg2ltv9"
-                    options={{
-                      sources: ["local"],
-                      multiple: false,
-                      maxFiles: 5,
-                      styles: {
-                        palette: {
-                          window: "#FFFFFF",
-                          windowBorder: "#90A0B3",
-                          tabIcon: "#0078FF",
-                          menuIcons: "#5A616A",
-                          textDark: "#000000",
-                          textLight: "#FFFFFF",
-                          link: "#0078FF",
-                          action: "#FF620C",
-                          inactiveTabIcon: "#0E2F5A",
-                          error: "#F44235",
-                          inProgress: "#0078FF",
-                          complete: "#20B832",
-                          sourceBg: "#E4EBF1",
-                        },
-                        fonts: {
-                          default: null,
-                          "'Fira Sans', sans-serif": {
-                            url: "https://fonts.googleapis.com/css?family=Fira+Sans",
-                            active: true,
-                          },
-                        },
-                      },
-                    }}
-                    onUpload={(result, widget) => {
-                      if (result.event !== "success") return;
-                      setImg1(result.info.public_id);
-                    }}
-                  >
-                    {({ open }) =>
-                      !img1 && (
-                        <button
-                          className={styles.btnAdd}
-                          onClick={() => open()}
-                        >
-                          Select proof of payment
-                          <span className={styles.import}>*</span>
-                        </button>
-                      )
-                    }
-                  </CldUploadWidget>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ marginBottom: "1rem" }}
+                  />
                 </p>
               </div>
               <div className={styles.btns}>
                 <button className={styles.placeOrder} onClick={handleUpload}>
-                  upload
+                  Upload
                 </button>
               </div>
             </div>
@@ -153,7 +126,5 @@ export default function UploadProof() {
       <Contact />
       <Footer />
     </>
-    //   )}
-    // </>
   );
 }

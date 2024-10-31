@@ -125,7 +125,7 @@ export default function Orders() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -135,7 +135,7 @@ export default function Orders() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -146,7 +146,7 @@ export default function Orders() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -176,7 +176,7 @@ export default function Orders() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -186,7 +186,7 @@ export default function Orders() {
                             <td style={{ fontSize: "13px" }}>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -202,7 +202,7 @@ export default function Orders() {
                               </span>
                             </td>
                           </tr>
-                          {proId === list.productId && showDialog && (
+                          {proId === list.id && showDialog && (
                             <tr>
                               <td></td>
 
