@@ -37,7 +37,7 @@ export default function UniqueProduct({ title }) {
     <section className={styles.trendingproducts}>
       <div className={styles.centertext}>
         <h2>
-          {title === "All" ? "Our Trending" : title}{" "}
+          {title || "Our Trending"}{" "}
           <span className={styles.collection}>Collections</span>
         </h2>
       </div>

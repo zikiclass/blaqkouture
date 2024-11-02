@@ -3,6 +3,8 @@ import prisma from "../../../../../prisma/client";
 
 export async function GET(request) {
   try {
+    const totalOrders = await prisma.orders.count();
+    const totalCount = totalOrders > 15 ? 15 : totalOrders;
     const orders = await prisma.order.findMany({
       include: {
         user: true,
@@ -11,7 +13,7 @@ export async function GET(request) {
       orderBy: {
         id: "desc",
       },
-      take: 15,
+      take: totalCount,
     });
 
     if (orders) {
