@@ -15,6 +15,7 @@ import axios from "axios";
 import { format, parseISO } from "date-fns";
 import { CldImage } from "next-cloudinary";
 import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
 export default function Admin() {
   const router = useRouter();
 
@@ -124,6 +125,8 @@ export default function Admin() {
           });
           if (response.status === 200) {
             getOrders();
+            getProcessingOrders();
+            getReceivedOrders();
             Swal.fire("Deleted!", "", "success");
           }
         };
@@ -144,6 +147,8 @@ export default function Admin() {
         `/api/order/unique_admin?id=${id}&status=${statusOrder}`
       );
       if (response.data) {
+        getReceivedOrders();
+        getProcessingOrders();
         setShowDialog(false);
         getOrders();
       }
@@ -224,7 +229,7 @@ export default function Admin() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -234,7 +239,7 @@ export default function Admin() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -245,7 +250,7 @@ export default function Admin() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -275,7 +280,7 @@ export default function Admin() {
                             <td>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -285,7 +290,7 @@ export default function Admin() {
                             <td style={{ fontSize: "13px" }}>
                               <button
                                 onClick={() => {
-                                  setProId(list.productId);
+                                  setProId(list.id);
                                   setShowDialog(true);
                                 }}
                               >
@@ -301,7 +306,7 @@ export default function Admin() {
                               </span>
                             </td>
                           </tr>
-                          {proId === list.productId && showDialog && (
+                          {proId === list.id && showDialog && (
                             <tr>
                               <td></td>
 

@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(true);
+  const [signInText, setSignInText] = useState("Sign In");
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     setLoading(false);
@@ -24,6 +25,7 @@ export default function SignIn() {
 
   const router = useRouter();
   const handleSignIn = async (event) => {
+    setSignInText("Processing...");
     event.preventDefault();
     setLoading(true);
     const { email, password } = event.target.elements;
@@ -38,6 +40,7 @@ export default function SignIn() {
 
       setLoading(false);
       if (result.error) {
+        setSignInText("Sign In");
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -77,7 +80,7 @@ export default function SignIn() {
               <input type="password" name="password" placeholder="Password" />
               <RiLockPasswordFill className={styles.icon} />
             </div>
-            <button type="submit">Sign In</button>
+            <button type="submit">{signInText}</button>
             <span>
               Don&apos;t have an account?{" "}
               <Link prefetch={true} href="signup" className={styles.signup}>

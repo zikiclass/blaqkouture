@@ -111,12 +111,14 @@ export default function Sidebar({ menu, closeMenu }) {
             <IoPersonOutline />
           </span>
           <h1>Customers</h1>
-          <span
-            className={styles.message_count}
-            style={{ backgroundColor: "var(--color-success)" }}
-          >
-            {users.length}
-          </span>
+          {users.length > 0 && (
+            <span
+              className={styles.message_count}
+              style={{ backgroundColor: "var(--color-success)" }}
+            >
+              {users.length}
+            </span>
+          )}
         </Link>
         <Link href="orders" className={styles.link}>
           <span>
@@ -130,19 +132,23 @@ export default function Sidebar({ menu, closeMenu }) {
             <IoMailOutline />
           </span>
           <h1>Messages</h1>
-          <span className={styles.message_count}>{message.length}</span>
+          {message.length > 0 && (
+            <span className={styles.message_count}>{message.length}</span>
+          )}
         </Link>
         <Link href="products" className={styles.link}>
           <span>
             <MdOutlineInventory />
           </span>
           <h1>Products</h1>
-          <span
-            className={styles.message_count}
-            style={{ backgroundColor: "var(--color-primary)" }}
-          >
-            {products.length}
-          </span>
+          {products.length > 0 && (
+            <span
+              className={styles.message_count}
+              style={{ backgroundColor: "var(--color-primary)" }}
+            >
+              {products.length}
+            </span>
+          )}
         </Link>
         {/* <Link href="#" className={styles.link}>
           <span>
@@ -156,24 +162,28 @@ export default function Sidebar({ menu, closeMenu }) {
             <MdInsights />
           </span>
           <h1>New Updates</h1>
-          <span
-            className={styles.message_count}
-            style={{ backgroundColor: "var(--color-success)" }}
-          >
-            {news.length}
-          </span>
+          {news.length > 0 && (
+            <span
+              className={styles.message_count}
+              style={{ backgroundColor: "var(--color-success)" }}
+            >
+              {news.length}
+            </span>
+          )}
         </Link>
         <Link href="feedback" className={styles.link}>
           <span>
             <IoMdAdd />
           </span>
           <h1>Feedback</h1>
-          <span
-            className={styles.message_count}
-            style={{ backgroundColor: "var(--color-primary-variant)" }}
-          >
-            {feedbacks.length}
-          </span>
+          {feedbacks.length > 0 && (
+            <span
+              className={styles.message_count}
+              style={{ backgroundColor: "var(--color-primary-variant)" }}
+            >
+              {feedbacks.length}
+            </span>
+          )}
         </Link>
         <Link href="settings" className={styles.link}>
           <span>

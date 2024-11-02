@@ -21,6 +21,7 @@ import Swal from "sweetalert2";
 
 export default function Signup() {
   const [loading, setLoading] = useState(true);
+  const [signUpText, setSignUpText] = useState("Sign Up");
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     setLoading(false);
@@ -55,6 +56,7 @@ export default function Signup() {
           <form
             action=""
             onSubmit={handleSubmit(async (data) => {
+              setSignUpText("Processing...");
               setLoading(true);
               try {
                 await axios.post("/api/register", { ...data });
@@ -118,7 +120,7 @@ export default function Signup() {
               <RiLockPasswordFill className={styles.icon} />
             </div>
             {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-            <button type="submit">Sign Up</button>
+            <button type="submit">{signUpText}</button>
             <span>
               Already have an account?{" "}
               <Link prefetch={true} href="signin" className={styles.signup}>

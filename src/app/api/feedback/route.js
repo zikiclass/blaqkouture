@@ -11,7 +11,7 @@ export async function POST(request) {
         content: body.content,
         name: body.name,
         position: body.position,
-        image: body.img1,
+        image: body.images,
       },
     });
 

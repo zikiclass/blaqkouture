@@ -16,6 +16,7 @@ export default function UploadProof() {
   const [img1, setImg1] = useState("");
   const [file, setFile] = useState(null);
   const router = useRouter();
+  const [upload, setUpload] = useState("upload");
   const { data: session, status } = useSession();
   const userId = session?.user?.id;
 
@@ -39,7 +40,9 @@ export default function UploadProof() {
   };
 
   const handleUpload = async () => {
+    setUpload("Uploading...");
     if (!file) {
+      setUpload("upload");
       toast.error("Please select an image to upload.");
       return;
     }
@@ -115,7 +118,7 @@ export default function UploadProof() {
               </div>
               <div className={styles.btns}>
                 <button className={styles.placeOrder} onClick={handleUpload}>
-                  Upload
+                  {upload}
                 </button>
               </div>
             </div>

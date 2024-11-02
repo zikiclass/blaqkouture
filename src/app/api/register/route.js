@@ -82,13 +82,26 @@ export async function DELETE(req) {
   try {
     const userId = req.nextUrl.searchParams.get("id");
     const id = parseInt(userId);
+
+    await prisma.$transaction([
+      prisma.order.deleteMany({
+        where: { userId: id },
+      }),
+      prisma.billing.deleteMany({
+        where: { userId: id },
+      }),
+    ]);
+
     const user = await prisma.user.delete({
       where: {
         id,
       },
     });
-    if (user) return NextResponse.json("success", { status: 200 });
-    return NextResponse.json("error", { status: 404 });
+    if (user) {
+      return NextResponse.json("success", { status: 200 });
+    } else {
+      return NextResponse.json("error", { status: 404 });
+    }
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

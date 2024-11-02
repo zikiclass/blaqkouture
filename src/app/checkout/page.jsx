@@ -29,6 +29,7 @@ import { GlobalContext } from "@/context";
 export default function CheckOut() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [placeOrderText, setPlaceOrderText] = useState("");
   const { cart, clearCart } = useCart();
   const userId = session?.user?.id;
   useEffect(() => {
@@ -203,6 +204,7 @@ export default function CheckOut() {
   };
 
   const handlePaymentSubmitOffline = async (data) => {
+    setPlaceOrderText("Processing...");
     try {
       const response = await axios.post("/api/billing", { ...data, userId });
 
@@ -325,7 +327,13 @@ export default function CheckOut() {
               type="submit"
               onClick={handleSubmit(handlePaymentSubmitOffline)}
             >
-              Place order ₦ {(totalPrice + totalTax).toLocaleString()} .00
+              {placeOrderText !== "" ? (
+                placeOrderText
+              ) : (
+                <>
+                  Place order ₦ {(totalPrice + totalTax).toLocaleString()} .00
+                </>
+              )}
             </button>
             {/* <PaystackButton
               className={styles.placeOrder}

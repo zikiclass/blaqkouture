@@ -42,17 +42,24 @@ export default function UniqueProduct({ title }) {
         </h2>
       </div>
       <div className={styles.products}>
-        {products.map((pro) => (
-          <Product
-            img={pro.img1}
-            key={pro.productId}
-            amt={pro.price}
-            title={pro.title}
-            prevAmt={pro.overprice}
-            sale={pro.stockquantity}
-            productId={pro.productId}
-          />
-        ))}
+        {products.length > 0 ? (
+          products.map((pro) => (
+            <Product
+              img={pro.img1}
+              key={pro.productId}
+              amt={pro.price}
+              title={pro.title}
+              prevAmt={pro.overprice}
+              sale={pro.stockquantity}
+              productId={pro.productId}
+            />
+          ))
+        ) : (
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+            <p>Getting collections...</p>
+          </div>
+        )}
       </div>
     </section>
   );

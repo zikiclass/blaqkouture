@@ -6,15 +6,6 @@ export async function POST(request) {
   try {
     const body = await request.json();
 
-    // Validate input data
-    const validation = productSchema.safeParse(body);
-    if (!validation.success) {
-      return NextResponse.json(
-        { message: "Validation error", errors: validation.error.format() },
-        { status: 400 }
-      );
-    }
-
     // Create a new product entry in the database
     const addProduct = await prisma.product.create({
       data: {
@@ -23,9 +14,9 @@ export async function POST(request) {
         overprice: parseFloat(body.overprice),
         details: body.details,
         stockquantity: body.stockquantity,
-        img1: body.img1,
-        img2: body.img2,
-        img3: body.img3,
+        img1: body.image1,
+        img2: body.image2,
+        img3: body.image3,
         collection: body.collection,
         associatedWith: body.associatedWith,
       },

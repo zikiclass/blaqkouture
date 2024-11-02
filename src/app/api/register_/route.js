@@ -87,8 +87,12 @@ export async function DELETE(req) {
         id,
       },
     });
-    if (admin) return NextResponse.json("success", { status: 200 });
-    return NextResponse.json("error", { status: 404 });
+
+    if (admin) {
+      return NextResponse.json("success", { status: 200 });
+    } else {
+      return NextResponse.json("error", { status: 404 });
+    }
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

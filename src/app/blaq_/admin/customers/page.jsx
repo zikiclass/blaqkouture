@@ -104,28 +104,13 @@ export default function Customers() {
                       {customersList.map((list, index) => (
                         <tr key={index}>
                           <td>
-                            <Link
-                              prefetch={true}
-                              href={`edit_news?id=${list.id}`}
-                            >
-                              {list.name}
-                            </Link>
+                            <Link href="#">{list.name}</Link>
                           </td>
                           <td>
-                            <Link
-                              prefetch={true}
-                              href={`edit_news?id=${list.id}`}
-                            >
-                              {list.email}
-                            </Link>
+                            <Link href="#">{list.email}</Link>
                           </td>
                           <td>
-                            <Link
-                              prefetch={true}
-                              href={`edit_news?id=${list.id}`}
-                            >
-                              {list.phone}
-                            </Link>
+                            <Link href="#">{list.phone}</Link>
                           </td>
 
                           <td

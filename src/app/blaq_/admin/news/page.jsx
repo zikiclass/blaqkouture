@@ -19,7 +19,8 @@ import { useForm } from "react-hook-form";
 
 export default function News() {
   const [img1, setImg1] = useState("");
-
+  const [addTitle, setAddTitle] = useState("Add News");
+  const [file, setFile] = useState(null);
   const router = useRouter();
   const {
     register,
@@ -38,6 +39,18 @@ export default function News() {
   if (status === "unauthenticated") {
     router.push("signin");
   }
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg1(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile(selectedFile); // Save the selected file for upload
+    }
+  };
 
   const [newsList, setNewsList] = useState([]);
   const getnews = async () => {
@@ -171,59 +184,22 @@ export default function News() {
                         />
                       )}
 
-                      <CldUploadWidget
-                        uploadPreset="czg2ltv9"
-                        options={{
-                          sources: ["local"],
-                          multiple: false,
-                          maxFiles: 5,
-                          styles: {
-                            palette: {
-                              window: "#FFFFFF",
-                              windowBorder: "#90A0B3",
-                              tabIcon: "#0078FF",
-                              menuIcons: "#5A616A",
-                              textDark: "#000000",
-                              textLight: "#FFFFFF",
-                              link: "#0078FF",
-                              action: "#FF620C",
-                              inactiveTabIcon: "#0E2F5A",
-                              error: "#F44235",
-                              inProgress: "#0078FF",
-                              complete: "#20B832",
-                              sourceBg: "#E4EBF1",
-                            },
-                            fonts: {
-                              default: null,
-                              "'Fira Sans', sans-serif": {
-                                url: "https://fonts.googleapis.com/css?family=Fira+Sans",
-                                active: true,
-                              },
-                            },
-                          },
-                        }}
-                        onUpload={(result, widget) => {
-                          if (result.event !== "success") return;
-                          setImg1(result.info.public_id);
-                        }}
-                      >
-                        {({ open }) =>
-                          !img1 && (
-                            <button
-                              className={styles.btnAdd}
-                              onClick={() => open()}
-                            >
-                              Select Image{" "}
-                              <span className={styles.import}>*</span>
-                            </button>
-                          )
-                        }
-                      </CldUploadWidget>
+                      <label className={styles.customLabel}>
+                        Select image <span style={{ color: "red" }}>*</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          style={{ marginBottom: "1rem" }}
+                          className={styles.customInput}
+                        />
+                      </label>
                     </div>
                   </div>
                   <form
                     action=""
                     onSubmit={handleSubmit(async (data) => {
+                      setAddTitle("Adding News...");
                       if (!img1) {
                         Swal.fire({
                           title: "Error",
@@ -231,18 +207,30 @@ export default function News() {
                           icon: "error",
                         });
                       } else {
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        formData.append("upload_preset", "czg2ltv9");
+
                         try {
+                          const uploadResponse = await axios.post(
+                            "https://api.cloudinary.com/v1_1/dd0yi5utp/image/upload",
+                            formData
+                          );
+
+                          const imagePublicId = uploadResponse.data.public_id;
+
                           await axios.post("/api/news", {
                             ...data,
-                            img1,
+                            images: img1 ? imagePublicId : "",
                           });
                           Swal.fire({
                             title: "Success",
-                            text: "news added successfully",
+                            text: "News added successfully",
                             icon: "success",
                           });
                           router.push("dashboard");
                         } catch (error) {
+                          setAddTitle("Add News...");
                           toast.error(error.message);
                         }
                       }
@@ -304,7 +292,7 @@ export default function News() {
                     </div>
 
                     <button type="submit">
-                      <IoMdAdd /> Add news
+                      {addTitle === "Add News" && <IoMdAdd />} {addTitle}
                     </button>
                   </form>
                 </div>

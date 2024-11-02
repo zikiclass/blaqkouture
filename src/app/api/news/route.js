@@ -13,7 +13,7 @@ export async function POST(request) {
         content2: body.content2,
         content3: body.content3,
         date: body.date,
-        image: body.img1,
+        image: body.images,
       },
     });
 

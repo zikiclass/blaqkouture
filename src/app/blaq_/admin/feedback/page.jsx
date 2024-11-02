@@ -18,8 +18,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 export default function Feedback() {
+  const [addTitle, setAddTitle] = useState("Add Feedback");
   const [img1, setImg1] = useState("");
-
+  const [file, setFile] = useState(null);
   const router = useRouter();
   const {
     register,
@@ -38,6 +39,17 @@ export default function Feedback() {
   if (status === "unauthenticated") {
     router.push("signin");
   }
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg1(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile(selectedFile); // Save the selected file for upload
+    }
+  };
 
   const [feedbackList, setFeedbackList] = useState([]);
   const getFeedback = async () => {
@@ -56,7 +68,7 @@ export default function Feedback() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleDelete = (feedbackId) => {
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Do you want to delete this feedback?",
       showDenyButton: true,
@@ -67,7 +79,7 @@ export default function Feedback() {
       if (result.isConfirmed) {
         const deleteFeedback = async () => {
           const response = await axios.delete("/api/feedback", {
-            params: { feedbackId },
+            params: { id },
           });
           if (response.status === 200) {
             getFeedback();
@@ -193,59 +205,22 @@ export default function Feedback() {
                         />
                       )}
 
-                      <CldUploadWidget
-                        uploadPreset="czg2ltv9"
-                        options={{
-                          sources: ["local"],
-                          multiple: false,
-                          maxFiles: 5,
-                          styles: {
-                            palette: {
-                              window: "#FFFFFF",
-                              windowBorder: "#90A0B3",
-                              tabIcon: "#0078FF",
-                              menuIcons: "#5A616A",
-                              textDark: "#000000",
-                              textLight: "#FFFFFF",
-                              link: "#0078FF",
-                              action: "#FF620C",
-                              inactiveTabIcon: "#0E2F5A",
-                              error: "#F44235",
-                              inProgress: "#0078FF",
-                              complete: "#20B832",
-                              sourceBg: "#E4EBF1",
-                            },
-                            fonts: {
-                              default: null,
-                              "'Fira Sans', sans-serif": {
-                                url: "https://fonts.googleapis.com/css?family=Fira+Sans",
-                                active: true,
-                              },
-                            },
-                          },
-                        }}
-                        onUpload={(result, widget) => {
-                          if (result.event !== "success") return;
-                          setImg1(result.info.public_id);
-                        }}
-                      >
-                        {({ open }) =>
-                          !img1 && (
-                            <button
-                              className={styles.btnAdd}
-                              onClick={() => open()}
-                            >
-                              Select Image{" "}
-                              <span className={styles.import}>*</span>
-                            </button>
-                          )
-                        }
-                      </CldUploadWidget>
+                      <label className={styles.customLabel}>
+                        Choose image <span style={{ color: "red" }}>*</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          style={{ marginBottom: "1rem" }}
+                          className={styles.customInput}
+                        />
+                      </label>
                     </div>
                   </div>
                   <form
                     action=""
                     onSubmit={handleSubmit(async (data) => {
+                      setAddTitle("Adding Feedback...");
                       if (!img1) {
                         Swal.fire({
                           title: "Error",
@@ -253,10 +228,21 @@ export default function Feedback() {
                           icon: "error",
                         });
                       } else {
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        formData.append("upload_preset", "czg2ltv9");
+
                         try {
+                          const uploadResponse = await axios.post(
+                            "https://api.cloudinary.com/v1_1/dd0yi5utp/image/upload",
+                            formData
+                          );
+
+                          const imagePublicId = uploadResponse.data.public_id;
+
                           await axios.post("/api/feedback", {
                             ...data,
-                            img1,
+                            images: img1 ? imagePublicId : "",
                           });
                           Swal.fire({
                             title: "Success",
@@ -265,6 +251,7 @@ export default function Feedback() {
                           });
                           router.push("dashboard");
                         } catch (error) {
+                          setAddTitle("Add Feedback");
                           toast.error(error.message);
                         }
                       }
@@ -304,7 +291,7 @@ export default function Feedback() {
                     </div>
 
                     <button type="submit">
-                      <IoMdAdd /> Add Feedback
+                      {addTitle === "Add Feedback" && <IoMdAdd />} {addTitle}
                     </button>
                   </form>
                 </div>

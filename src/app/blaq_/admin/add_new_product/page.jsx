@@ -18,9 +18,47 @@ import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 export default function AddProducts() {
+  const [addTitle, setAddTitle] = useState("Add Product");
+  const [file, setFile] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
   const [img1, setImg1] = useState("");
   const [img2, setImg2] = useState("");
   const [img3, setImg3] = useState("");
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg1(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile(selectedFile); // Save the selected file for upload
+    }
+  };
+  const handleFileChange2 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg2(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile2(selectedFile); // Save the selected file for upload
+    }
+  };
+  const handleFileChange3 = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImg3(reader.result); // Set the preview image
+      };
+      reader.readAsDataURL(selectedFile);
+      setFile3(selectedFile); // Save the selected file for upload
+    }
+  };
 
   const router = useRouter();
   const {
@@ -84,55 +122,17 @@ export default function AddProducts() {
                           style={{ marginBottom: "1rem" }}
                         />
                       )}
-
-                      <CldUploadWidget
-                        uploadPreset="czg2ltv9"
-                        options={{
-                          sources: ["local"],
-                          multiple: false,
-                          maxFiles: 5,
-                          styles: {
-                            palette: {
-                              window: "#FFFFFF",
-                              windowBorder: "#90A0B3",
-                              tabIcon: "#0078FF",
-                              menuIcons: "#5A616A",
-                              textDark: "#000000",
-                              textLight: "#FFFFFF",
-                              link: "#0078FF",
-                              action: "#FF620C",
-                              inactiveTabIcon: "#0E2F5A",
-                              error: "#F44235",
-                              inProgress: "#0078FF",
-                              complete: "#20B832",
-                              sourceBg: "#E4EBF1",
-                            },
-                            fonts: {
-                              default: null,
-                              "'Fira Sans', sans-serif": {
-                                url: "https://fonts.googleapis.com/css?family=Fira+Sans",
-                                active: true,
-                              },
-                            },
-                          },
-                        }}
-                        onUpload={(result, widget) => {
-                          if (result.event !== "success") return;
-                          setImg1(result.info.public_id);
-                        }}
-                      >
-                        {({ open }) =>
-                          !img1 && (
-                            <button
-                              className={styles.btnAdd}
-                              onClick={() => open()}
-                            >
-                              Select First Image{" "}
-                              <span className={styles.import}>*</span>
-                            </button>
-                          )
-                        }
-                      </CldUploadWidget>
+                      <label className={styles.customLabel}>
+                        Choose product image{" "}
+                        <span style={{ color: "red" }}>*</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          style={{ marginBottom: "1rem" }}
+                          className={styles.customInput}
+                        />
+                      </label>
                     </div>
                     <div className={styles.input}>
                       {img2 && (
@@ -144,54 +144,16 @@ export default function AddProducts() {
                           style={{ marginBottom: "1rem" }}
                         />
                       )}
-
-                      <CldUploadWidget
-                        uploadPreset="czg2ltv9"
-                        options={{
-                          sources: ["local"],
-                          multiple: false,
-                          maxFiles: 5,
-                          styles: {
-                            palette: {
-                              window: "#FFFFFF",
-                              windowBorder: "#90A0B3",
-                              tabIcon: "#0078FF",
-                              menuIcons: "#5A616A",
-                              textDark: "#000000",
-                              textLight: "#FFFFFF",
-                              link: "#0078FF",
-                              action: "#FF620C",
-                              inactiveTabIcon: "#0E2F5A",
-                              error: "#F44235",
-                              inProgress: "#0078FF",
-                              complete: "#20B832",
-                              sourceBg: "#E4EBF1",
-                            },
-                            fonts: {
-                              default: null,
-                              "'Fira Sans', sans-serif": {
-                                url: "https://fonts.googleapis.com/css?family=Fira+Sans",
-                                active: true,
-                              },
-                            },
-                          },
-                        }}
-                        onUpload={(result, widget) => {
-                          if (result.event !== "success") return;
-                          setImg2(result.info.public_id);
-                        }}
-                      >
-                        {({ open }) =>
-                          !img2 && (
-                            <button
-                              className={styles.btnAdd}
-                              onClick={() => open()}
-                            >
-                              Second Image (Optional)
-                            </button>
-                          )
-                        }
-                      </CldUploadWidget>
+                      <label className={styles.customLabel}>
+                        2nd image (optional)
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange2}
+                          style={{ marginBottom: "1rem" }}
+                          className={styles.customInput}
+                        />
+                      </label>
                     </div>
                     <div className={styles.input}>
                       {img3 && (
@@ -203,72 +165,82 @@ export default function AddProducts() {
                           style={{ marginBottom: "1rem" }}
                         />
                       )}
-
-                      <CldUploadWidget
-                        uploadPreset="czg2ltv9"
-                        options={{
-                          sources: ["local"],
-                          multiple: false,
-                          maxFiles: 5,
-                          styles: {
-                            palette: {
-                              window: "#FFFFFF",
-                              windowBorder: "#90A0B3",
-                              tabIcon: "#0078FF",
-                              menuIcons: "#5A616A",
-                              textDark: "#000000",
-                              textLight: "#FFFFFF",
-                              link: "#0078FF",
-                              action: "#FF620C",
-                              inactiveTabIcon: "#0E2F5A",
-                              error: "#F44235",
-                              inProgress: "#0078FF",
-                              complete: "#20B832",
-                              sourceBg: "#E4EBF1",
-                            },
-                            fonts: {
-                              default: null,
-                              "'Fira Sans', sans-serif": {
-                                url: "https://fonts.googleapis.com/css?family=Fira+Sans",
-                                active: true,
-                              },
-                            },
-                          },
-                        }}
-                        onUpload={(result, widget) => {
-                          if (result.event !== "success") return;
-                          setImg3(result.info.public_id);
-                        }}
-                      >
-                        {({ open }) =>
-                          !img3 && (
-                            <button
-                              className={styles.btnAdd}
-                              onClick={() => open()}
-                            >
-                              Third Image (Optional)
-                            </button>
-                          )
-                        }
-                      </CldUploadWidget>
+                      <label className={styles.customLabel}>
+                        3rd image (optional)
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange3}
+                          style={{ marginBottom: "1rem" }}
+                          className={styles.customInput}
+                        />
+                      </label>
                     </div>
                   </div>
                   <form
                     action=""
                     onSubmit={handleSubmit(async (data) => {
+                      setAddTitle("Adding Product...");
                       if (!img1) {
                         Swal.fire({
                           title: "Error",
-                          text: "Please select first image",
+                          text: "Please select product image (1st image is compulsory)",
                           icon: "error",
                         });
                       } else {
+                        const formData = new FormData();
+                        const formData2 = new FormData();
+                        const formData3 = new FormData();
+                        let uploadResponse2 = null;
+                        let uploadResponse3 = null;
+                        formData.append("file", file);
+                        formData.append("upload_preset", "czg2ltv9");
+                        if (img2 && file2) {
+                          formData2.append("file", file2);
+                          formData2.append("upload_preset", "czg2ltv9");
+                          try {
+                            uploadResponse2 = await axios.post(
+                              "https://api.cloudinary.com/v1_1/dd0yi5utp/image/upload",
+                              formData2
+                            );
+                          } catch (e) {
+                            console.error("Error uploading image 2:", e);
+                            // Handle the error (e.g., show a notification)
+                          }
+                        }
+                        if (img3 && file3) {
+                          formData3.append("file", file3);
+                          formData3.append("upload_preset", "czg2ltv9");
+                          try {
+                            uploadResponse3 = await axios.post(
+                              "https://api.cloudinary.com/v1_1/dd0yi5utp/image/upload",
+                              formData3
+                            );
+                          } catch (e) {
+                            console.error("Error uploading image 3:", e);
+                            // Handle the error (e.g., show a notification)
+                          }
+                        }
+
                         try {
+                          const uploadResponse = await axios.post(
+                            "https://api.cloudinary.com/v1_1/dd0yi5utp/image/upload",
+                            formData
+                          );
+
+                          const imagePublicId = uploadResponse.data.public_id;
+                          const imagePublicId2 = uploadResponse2
+                            ? uploadResponse2.data.public_id
+                            : "";
+                          const imagePublicId3 = uploadResponse3
+                            ? uploadResponse3.data.public_id
+                            : "";
+
                           await axios.post("/api/product", {
                             ...data,
-                            img1,
-                            img2,
-                            img3,
+                            image1: img1 ? imagePublicId : "",
+                            image2: img2 ? imagePublicId2 : "",
+                            image3: img3 ? imagePublicId3 : "",
                           });
                           Swal.fire({
                             title: "Success",
@@ -277,6 +249,7 @@ export default function AddProducts() {
                           });
                           router.push("products");
                         } catch (error) {
+                          setAddTitle("Add Product");
                           toast.error(error.message);
                         }
                       }
@@ -383,7 +356,7 @@ export default function AddProducts() {
                     </div>
 
                     <button type="submit">
-                      <IoMdAdd /> Add Product
+                      {addTitle === "Add Product" && <IoMdAdd />} {addTitle}
                     </button>
                   </form>
                 </div>
