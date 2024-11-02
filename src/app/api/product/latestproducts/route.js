@@ -7,7 +7,6 @@ export async function GET(req) {
       orderBy: {
         productId: "desc",
       },
-      take: 8,
     });
 
     if (product) {
