@@ -108,12 +108,16 @@ export default function UploadProof() {
                       style={{ marginBottom: "1rem" }}
                     />
                   )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{ marginBottom: "1rem" }}
-                  />
+                  <label className={styles.customLabel}>
+                    Select image <span style={{ color: "red" }}>*</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ marginBottom: "1rem" }}
+                      className={styles.customInput}
+                    />
+                  </label>
                 </p>
               </div>
               <div className={styles.btns}>
