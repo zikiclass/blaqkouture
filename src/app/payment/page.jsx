@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useMemo, useContext } from "react";
 import firstBank from "../../image/firstbank.jpg";
+import palmpay from "../../image/palmpay.png";
 import kudaBank from "../../image/kuda.jpg";
 import opayBank from "../../image/opay.jpg";
 import Link from "next/link";
@@ -68,7 +69,7 @@ export default function Payment() {
   const [bankTitle, setBankTitle] = useState("First Bank");
   const [bank, setBank] = useState([]);
   const getBank = async () => {
-    const response = await axios.get(`/api/bankdetails_copy`);
+    const response = await axios.get(`/api/bkdetails`);
 
     if (response.data) setBank(response.data);
   };
@@ -103,15 +104,15 @@ export default function Payment() {
       <section className={styles.checkout}>
         <div className={styles.imgsBank}>
           <Image
-            src={firstBank}
+            src={palmpay}
             className={styles.bank}
             alt="Img"
-            onClick={() => {
-              setBankTitle("First Bank");
-              handleLoading("First Bank");
-            }}
+            // onClick={() => {
+            //   setBankTitle("First Bank");
+            //   handleLoading("First Bank");
+            // }}
           />
-          <Image
+          {/* <Image
             src={kudaBank}
             className={styles.bank}
             alt="Img"
@@ -128,7 +129,7 @@ export default function Payment() {
               setBankTitle("Opay");
               handleLoading("Opay");
             }}
-          />
+          /> */}
         </div>
         <div className={styles.bankDetails}>
           <div className={styles.form}>
@@ -139,7 +140,7 @@ export default function Payment() {
               <h4>drip with style</h4>
               <h2>{totalPriceCart}</h2>
               <div className={styles.acct}>
-                {accountDetails.accountNumber ? (
+                {/* {accountDetails.accountNumber ? (
                   <>
                     <p>
                       <span>Account Number</span>
@@ -158,7 +159,20 @@ export default function Payment() {
                   <p>
                     <span>SELECT YOUR BANK</span>
                   </p>
-                )}
+                )} */}
+
+                <p>
+                  <span>Account Number</span>
+                  <b>9063152812</b>
+                </p>
+                <p>
+                  <span>Account Name</span>
+                  <b>KELVIN OGHENEVWEGBA</b>
+                </p>
+                <p>
+                  <span>Bank</span>
+                  <b>Palmpay</b>
+                </p>
               </div>
               <div className={styles.btns}>
                 {accountDetails.accountNumber && (

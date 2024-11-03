@@ -268,7 +268,7 @@ export default function Orders() {
                         })
                       }
                     />
-                    <button type="submit">Update</button>
+                    {/* <button type="submit">Update</button> */}
                   </form>
                 </div>
               </div>
