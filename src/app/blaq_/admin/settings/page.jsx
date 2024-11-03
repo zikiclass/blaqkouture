@@ -46,7 +46,7 @@ export default function Orders() {
   const [adminList, setAdmin] = useState([]);
   const [bank, setBank] = useState([]);
   const getBank = async () => {
-    const response = await axios.get(`/api/bankdetails_copy`);
+    const response = await axios.get(`/api/bkdetails`);
     if (response.data) setBank(response.data);
   };
 
@@ -90,12 +90,15 @@ export default function Orders() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/api/bankdetails_copy`, {
+      const response = await axios.put(`/api/bkdetails`, {
         id: selectedBank,
         accountNumber: accountDetails.accountNumber,
         accountName: accountDetails.accountName,
       });
-      if (response.data) toast.success("Account details updated successfully!");
+      if (response.data) {
+        toast.success("Account details updated successfully!");
+        getBank();
+      }
     } catch (error) {
       toast.error("Error updating account details.");
     }
