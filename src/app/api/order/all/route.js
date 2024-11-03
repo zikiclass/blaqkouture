@@ -17,7 +17,10 @@ export async function GET(request) {
       return NextResponse.json(orders, {
         status: 200,
         headers: {
-          "Cache-Control": "no-store", // Prevent caching
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
         },
       });
     } else {

@@ -33,7 +33,7 @@ export default function Orders() {
 
   const [ordersList, setOrders] = useState([]);
   const getOrders = async () => {
-    const response = await axios.get(`/api/order/get15`);
+    const response = await axios.get(`/api/order/all?timestamp=${Date.now()}`);
     if (response.data) setOrders(response.data);
   };
   useEffect(() => {
