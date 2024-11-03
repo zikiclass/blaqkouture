@@ -14,7 +14,12 @@ export async function GET(request) {
     });
 
     if (orders) {
-      return NextResponse.json(orders, { status: 200 });
+      return NextResponse.json(orders, {
+        status: 200,
+        headers: {
+          "Cache-Control": "no-store", // Prevent caching
+        },
+      });
     } else {
       return NextResponse.json(
         { message: "Orders not found" },
