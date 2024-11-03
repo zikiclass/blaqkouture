@@ -219,14 +219,20 @@ export default function Orders() {
                       e.preventDefault();
                       try {
                         const updateAccount = async () => {
-                          await axios.put("/api/bankdetails_copy", {
-                            id: selectedBank,
-                            accountNumber: accountDetails.accountNumber,
-                            accountName: accountDetails.accountName,
-                          });
+                          const response = await axios.put(
+                            "/api/bankdetails_copy",
+                            {
+                              id: selectedBank,
+                              accountNumber: accountDetails.accountNumber,
+                              accountName: accountDetails.accountName,
+                            }
+                          );
+                          if (response.data)
+                            toast.success(
+                              "Account details updated successfully!"
+                            );
                         };
                         updateAccount();
-                        toast.success("Account details updated successfully!");
                       } catch (error) {
                         toast.error("Error updating account details.");
                       }

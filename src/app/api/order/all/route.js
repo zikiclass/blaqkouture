@@ -8,6 +8,9 @@ export async function GET(request) {
         user: true,
         product: true,
       },
+      orderBy: {
+        id: "desc",
+      },
     });
 
     if (orders) {

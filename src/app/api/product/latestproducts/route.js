@@ -3,14 +3,14 @@ import prisma from "../../../../../prisma/client";
 
 export async function GET(req) {
   try {
-    const totalProducts = await prisma.product.count();
-    const takeCount = totalProducts > 8 ? 8 : totalProducts;
+    // const totalProducts = await prisma.product.count();
+    // const takeCount = totalProducts > 8 ? 8 : totalProducts;
 
     const product = await prisma.product.findMany({
       orderBy: {
         productId: "desc",
       },
-      take: takeCount,
+      // take: takeCount,
     });
 
     if (product) {

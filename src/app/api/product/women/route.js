@@ -3,16 +3,16 @@ import prisma from "../../../../../prisma/client";
 
 export async function GET(req) {
   try {
-    const totalWomen = await prisma.product.count({
-      where: { collection: "women" },
-    });
-    const totalCount = totalWomen > 8 ? 8 : totalWomen;
+    // const totalWomen = await prisma.product.count({
+    //   where: { collection: "women" },
+    // });
+    // const totalCount = totalWomen > 8 ? 8 : totalWomen;
     const product = await prisma.product.findMany({
       where: { collection: "women" },
       orderBy: {
         productId: "desc",
       },
-      take: totalCount,
+      //take: totalCount,
     });
 
     if (product) {
