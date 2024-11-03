@@ -19,22 +19,16 @@ export async function GET(request) {
 export async function PUT(request) {
   try {
     const body = await request.json();
-    if (request.method === "PUT") {
-      const updateBank = await prisma.bankDetails.update({
-        where: { id: parseInt(body.id) },
-        data: {
-          accountNumber: body.accountNumber,
-          accountName: body.accountName,
-        },
-      });
 
-      return NextResponse.json(updateBank, { status: 201 });
-    } else {
-      return NextResponse.json(
-        { message: "Method not allowed" },
-        { status: 405 }
-      );
-    }
+    const updateBank = await prisma.bankDetails.update({
+      where: { id: parseInt(body.id) },
+      data: {
+        accountNumber: body.accountNumber,
+        accountName: body.accountName,
+      },
+    });
+
+    return NextResponse.json(updateBank, { status: 201 });
   } catch (err) {
     console.error("Prisma Client Error:", err);
     return NextResponse.json(

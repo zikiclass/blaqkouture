@@ -87,11 +87,14 @@ export default function Orders() {
       });
     }
   };
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.put(
-        `/api/bankdetails_copy?id=${selectedBank}&accountNumber=${accountDetails.accountNumber}&accountName=${accountDetails.accountName}`
-      );
+      const response = await axios.put(`/api/bankdetails_copy`, {
+        id: selectedBank,
+        accountNumber: accountDetails.accountNumber,
+        accountName: accountDetails.accountName,
+      });
       if (response.data) toast.success("Account details updated successfully!");
     } catch (error) {
       toast.error("Error updating account details.");
