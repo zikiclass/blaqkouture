@@ -23,12 +23,31 @@ export default function RightSide({ showMenu }) {
       if (response.data) setUsers(response.data);
     } catch (e) {}
   };
+  const [ordersList, setOrders] = useState([]);
+  const [ordersList2, setOrders2] = useState([]);
+  const [ordersList3, setOrders3] = useState([]);
+  const [ordersList4, setOrders4] = useState([]);
   const getOfflineOrders = async () => {
-    try {
-      const response = await axios.get(`/api/order/all`);
-      if (response.data) setOfflineOrders(response.data);
-    } catch (e) {}
+    const response = await axios.get(
+      `/api/order/unique_processing?status=PROCESSING`
+    );
+    if (response.data) setOrders(response.data);
+
+    const response2 = await axios.get(
+      `/api/order/unique_processing?status=NO EVIDENCE!`
+    );
+    if (response2.data) setOrders2(response2.data);
+    const response3 = await axios.get(
+      `/api/order/unique_processing?status=DECLINED`
+    );
+    if (response3.data) setOrders3(response3.data);
+
+    const response4 = await axios.get(
+      `/api/order/unique_processing?status=RECEIVED`
+    );
+    if (response4.data) setOrders4(response4.data);
   };
+
   useEffect(() => {
     getUsers();
     getOfflineOrders();
@@ -96,7 +115,12 @@ export default function RightSide({ showMenu }) {
               <div className={styles.info}>
                 <h3>OFFLINE ORDERS</h3>
               </div>
-              <h5 className={styles.danger}>{offlineOrders.length}</h5>
+              <h5 className={styles.danger}>
+                {ordersList.length +
+                  ordersList2.length +
+                  ordersList3.length +
+                  ordersList4.length}
+              </h5>
             </div>
           </div>
           <div className={`${styles.item} ${styles.customers}`}>
