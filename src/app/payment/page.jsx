@@ -175,11 +175,11 @@ export default function Payment() {
                 </p>
               </div>
               <div className={styles.btns}>
-                {accountDetails.accountNumber && (
-                  <button className={styles.placeOrder} onClick={handlePayment}>
-                    I&#39;ve made the transfer
-                  </button>
-                )}
+                {/* {accountDetails.accountNumber && ( */}
+                <button className={styles.placeOrder} onClick={handlePayment}>
+                  I&#39;ve made the transfer
+                </button>
+                {/* )} */}
                 <button
                   className={styles.placeOrder}
                   style={{ backgroundColor: "var(--color-danger)" }}
