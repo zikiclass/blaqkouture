@@ -27,6 +27,7 @@ export default function RightSide({ showMenu }) {
   const [ordersList2, setOrders2] = useState([]);
   const [ordersList3, setOrders3] = useState([]);
   const [ordersList4, setOrders4] = useState([]);
+  const [ordersList5, setOrders5] = useState([]);
   const getOfflineOrders = async () => {
     const response = await axios.get(
       `/api/order/unique_processing?status=PROCESSING`
@@ -43,9 +44,13 @@ export default function RightSide({ showMenu }) {
     if (response3.data) setOrders3(response3.data);
 
     const response4 = await axios.get(
-      `/api/order/unique_processing?status=RECEIVED`
+      `/api/order/unique_processing?status=CANCELLED`
     );
     if (response4.data) setOrders4(response4.data);
+    const response5 = await axios.get(
+      `/api/order/unique_processing?status=RECEIVED`
+    );
+    if (response5.data) setOrders5(response5.data);
   };
 
   useEffect(() => {
@@ -119,7 +124,8 @@ export default function RightSide({ showMenu }) {
                 {ordersList.length +
                   ordersList2.length +
                   ordersList3.length +
-                  ordersList4.length}
+                  ordersList4.length +
+                  ordersList5.length}
               </h5>
             </div>
           </div>
