@@ -231,6 +231,8 @@ export default function Orders() {
                             toast.success(
                               "Account details updated successfully!"
                             );
+                          console.log(response.data);
+                          console.log(selectedBank);
                         };
                         updateAccount();
                       } catch (error) {
