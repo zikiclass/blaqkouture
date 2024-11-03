@@ -87,7 +87,16 @@ export default function Orders() {
       });
     }
   };
-
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(
+        `/api/bankdetails_copy?id=${selectedBank}&accountNumber=${accountDetails.accountNumber}&accountName=${accountDetails.accountName}`
+      );
+      if (response.data) toast.success("Account details updated successfully!");
+    } catch (error) {
+      toast.error("Error updating account details.");
+    }
+  };
   return (
     <>
       {loading ? (
@@ -215,30 +224,7 @@ export default function Orders() {
                   <form
                     action=""
                     className={styles.input}
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      try {
-                        const updateAccount = async () => {
-                          const response = await axios.put(
-                            "/api/bankdetails_copy",
-                            {
-                              id: selectedBank,
-                              accountNumber: accountDetails.accountNumber,
-                              accountName: accountDetails.accountName,
-                            }
-                          );
-                          if (response.data)
-                            toast.success(
-                              "Account details updated successfully!"
-                            );
-                          console.log(response.data);
-                          console.log(selectedBank);
-                        };
-                        updateAccount();
-                      } catch (error) {
-                        toast.error("Error updating account details.");
-                      }
-                    }}
+                    onSubmit={handleUpdate}
                   >
                     <select
                       name="bank"
