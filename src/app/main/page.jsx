@@ -6,9 +6,9 @@ import FindBestCollection from "@/components/findbestcollection/page";
 import Footer from "@/components/footer/page";
 import MainContent from "@/components/maincontent/page";
 import News from "@/components/news/page";
-import TrendingProducts from "@/components/trendingproducts/page";
 import Loader from "@/components/Loader";
 import Header from "@/components/header/page";
+import UniqueProduct from "@/components/uniqueproducts/page";
 
 export default function Main() {
   const [loading, setLoading] = useState(true);
@@ -26,7 +26,8 @@ export default function Main() {
         <>
           <Header />
           <MainContent />
-          <TrendingProducts />
+          <UniqueProduct title="All" />
+
           <ClientReviews />
           <FindBestCollection />
           <News />
