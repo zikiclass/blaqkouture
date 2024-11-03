@@ -361,13 +361,13 @@ export default function Admin() {
                     </tbody>
                   </table>
                 </div>
-                <Link
+                {/* <Link
                   prefetch={true}
                   href="allorders"
                   className={styles.showAll}
                 >
                   Show All
-                </Link>
+                </Link> */}
               </div>
             </main>
 
