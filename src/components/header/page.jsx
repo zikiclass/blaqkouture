@@ -18,6 +18,23 @@ export default function Header() {
   const [isSticky, setIsSticky] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (status === "unauthenticated") {
+      router.push("/");
+    } else if (session?.user?.isAdmin === "admin") {
+      const handleSignOut = async () => {
+        try {
+          await signOut({ callbackUrl: "/" });
+        } catch (error) {
+          console.error("Error during NextAuth sign out", error);
+        }
+      };
+      handleSignOut();
+    }
+  }, [status, session, router]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,8 +61,6 @@ export default function Header() {
   const handleRemove = () => {
     setShowMenu(false);
   };
-
-  const router = useRouter();
 
   const handleSignOut = async () => {
     try {

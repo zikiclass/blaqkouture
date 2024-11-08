@@ -10,6 +10,9 @@ export async function GET(req) {
         user: true,
         product: true,
       },
+      orderBy: {
+        id: "desc",
+      },
     });
 
     if (orders) {

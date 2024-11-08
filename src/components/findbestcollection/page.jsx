@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 import styles from "./style.module.css";
-import img1 from "../../image/IMG_82382345.png";
+import img1 from "../../image/IMG_8239.jpg";
 import img2 from "../../image/IMG_82381321.png";
 export default function FindBestCollection() {
   return (
