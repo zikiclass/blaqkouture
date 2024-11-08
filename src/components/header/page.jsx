@@ -22,9 +22,7 @@ export default function Header() {
 
   useEffect(() => {
     if (status === "loading") return;
-    if (status === "unauthenticated") {
-      router.push("/");
-    } else if (session?.user?.isAdmin === "admin") {
+    else if (session?.user?.isAdmin === "admin") {
       const handleSignOut = async () => {
         try {
           await signOut({ callbackUrl: "/" });
