@@ -30,7 +30,17 @@
 .customInput {
   display: none; /* Hide the default file input */
 }
-
+.whatsapp{
+    background-color: #25D366;
+    padding: 5px 14px;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 10px 0px;
+    cursor: pointer;
+}
 .customLabel {
     margin-bottom: 1rem;
   display: inline-block;

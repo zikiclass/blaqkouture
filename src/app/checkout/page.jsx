@@ -26,6 +26,7 @@ import { useCart } from "@/context/cartContext";
 import { CldImage } from "next-cloudinary";
 import { signOut } from "next-auth/react";
 import { GlobalContext } from "@/context";
+import UniqueProduct from "@/components/uniqueproducts/page";
 export default function CheckOut() {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -462,7 +463,7 @@ export default function CheckOut() {
           </div>
         </form>
       </section>
-      <TrendingProducts />
+      <UniqueProduct title="All" />
       <Contact />
       <Footer />
     </>

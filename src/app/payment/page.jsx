@@ -20,6 +20,7 @@ import axios from "axios";
 
 import Image from "next/image";
 import { GlobalContext } from "@/context";
+import UniqueProduct from "@/components/uniqueproducts/page";
 
 export default function Payment() {
   const router = useRouter();
@@ -192,7 +193,7 @@ export default function Payment() {
           </div>
         </div>
       </section>
-      <TrendingProducts />
+      <UniqueProduct title="All" />
       <Contact />
       <Footer />
     </>

@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { CldImage } from "next-cloudinary";
 import { GlobalContext } from "@/context";
+import UniqueProduct from "@/components/uniqueproducts/page";
 export default function Orders() {
   const { setUpdateQuery, setTotalPriceCart, setUniqueUpdate, setUseId } =
     useContext(GlobalContext);
@@ -178,7 +179,7 @@ export default function Orders() {
           </div>
         </div>
       </section>
-      <TrendingProducts />
+      <UniqueProduct title="All" />
       <Contact />
       <Footer />
     </>

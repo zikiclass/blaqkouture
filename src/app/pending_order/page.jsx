@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/components/header/page";
 
+import { WhatsApp } from "@mui/icons-material";
 import styles from "../payment/style.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -9,6 +10,7 @@ import { useState, useEffect } from "react";
 import Contact from "@/components/contact/page";
 import Footer from "@/components/footer/page";
 import TrendingProducts from "@/components/trendingproducts/page";
+import UniqueProduct from "@/components/uniqueproducts/page";
 
 export default function UploadProof() {
   const router = useRouter();
@@ -20,7 +22,7 @@ export default function UploadProof() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push("/orders");
-    }, 3000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, [router]);
 
@@ -49,14 +51,32 @@ export default function UploadProof() {
               <div className={styles.loadingContainer}>
                 <div className={styles.spinner}></div>
                 <p>Processing...</p>
+                <p style={{ textAlign: "center", marginTop: "14px" }}>
+                  Send payment slip & details of the product you want to the
+                  Whatsapp number below:
+                </p>
+                <p className={styles.whatsapp}>
+                  <b>
+                    <WhatsApp />
+                    <a
+                      href="https://wa.me/+2349072561418"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      09072561418
+                    </a>
+                  </b>
+                </p>
               </div>
               <div className={styles.acct}>
-                <p>
-                  <center
-                    style={{ color: "var(--color-primary)", fontSize: "13px" }}
-                  >
-                    Your transaction is being confirmed.
-                  </center>
+                <p
+                  style={{
+                    textAlign: "center",
+                    color: "var(--color-primary)",
+                    fontSize: "13px",
+                  }}
+                >
+                  Your transaction is being confirmed.
                 </p>
               </div>
               <div className={styles.btns}>
@@ -71,7 +91,7 @@ export default function UploadProof() {
           </div>
         </div>
       </section>
-      <TrendingProducts />
+      <UniqueProduct title="All" />
       <Contact />
       <Footer />
     </>

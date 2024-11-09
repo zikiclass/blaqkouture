@@ -17,6 +17,7 @@ import axios from "axios";
 import { CldImage } from "next-cloudinary";
 import { useCart } from "@/context/cartContext";
 import { useRouter } from "next/navigation";
+import UniqueProduct from "@/components/uniqueproducts/page";
 export default function ProductView() {
   const [id, setId] = useState(null);
   const [productDetails, setProductDetails] = useState(false);
@@ -325,7 +326,7 @@ export default function ProductView() {
           }}
         </SearchParamsWrapper>
       </Suspense>
-      <TrendingProducts />
+      <UniqueProduct title="All" />
       <Contact />
       <Footer />
     </>

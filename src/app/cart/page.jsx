@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cartContext";
 import { CldImage } from "next-cloudinary";
+import UniqueProduct from "@/components/uniqueproducts/page";
 export default function Cart() {
   const { cart, removeFromCart } = useCart();
   const [loading, setLoading] = useState(true);
@@ -166,7 +167,7 @@ export default function Cart() {
           </div>
         )}
       </section>
-      <TrendingProducts />
+      <UniqueProduct title="All" />
       <Contact />
       <Footer />
     </>
